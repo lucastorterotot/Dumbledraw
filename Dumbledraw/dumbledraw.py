@@ -90,7 +90,7 @@ class Plot(object):
                 markersize=markersize
             )
 
-    def create_stack(self, hist_names, name, group_name):
+    def create_stack(self, hist_names, name, group_name="invisible"):
         for subplot in self._subplots:
             subplot.create_stack(
                 hist_names=hist_names,
@@ -392,7 +392,7 @@ class Subplot(object):
                     hist[0].SetMarkerSize(markersize)
     
     # creates stack from registered histograms defined via name or group name
-    def create_stack(self, hist_names, name, group_name): 
+    def create_stack(self, hist_names, name, group_name="invisible"): 
         if name in self._hists.keys():
             logger.fatal("Stack name %s already used!"%name)
             raise Exception
