@@ -73,12 +73,3 @@ class Rootfile_parser(object):
     def __del__(self):
         logger.debug("Closing rootfile %s"%(self._rootfilename))
         self._rootfile.Close()
-        
-'''
-print "Hello world"
-file1 = Rootfile_parser("datacard_shapes_postfit_b.root")
-TH1 = file1.get("et", "ZTT", "ZTT")
-print TH1
-print file1.get_bins("et", "ZTT", "ZTT")
-del file1
-'''
