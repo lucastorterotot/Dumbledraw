@@ -12,6 +12,24 @@ def CreateTransparentColor(color, alpha):
     trans.SetName('userColor%i' % new_idx)
     return new_idx
 
+label_dict = {
+    "ggH"  : "ggH",
+    "qqH"  : "qqH",
+    "ZTT"  : "Z#rightarrow#tau#tau",
+    "ZLL"  : "Z#rightarrowll",
+    "ZL"   : "Z#rightarrowll (l#rightarrow#tau_{h})",
+    "ZJ"   : "Z#rightarrowll (jet#rightarrow#tau_{h})",
+    "TT"   : "t#bar{t}",
+    "TTT"  : "t#bar{t} (t#rightarrow#tau_{h})",
+    "TTJ"  : "t#bar{t} (jet#rightarrow#tau_{h})",
+    "W"    : "W+jets",
+    "VV"   : "Di-boson",
+    "QCD"  : "QCD multijet",
+    "EWK"  : "Electroweak",
+    "EWKZ" : "EWKZ",
+    "data_obs" : "Data"
+}
+
 color_dict = {
     "ggH"  : R.TColor.GetColor("#BF2229"),
     "qqH"  : R.TColor.GetColor("#00A88F"),

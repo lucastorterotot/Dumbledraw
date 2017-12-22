@@ -52,7 +52,7 @@ def main():
     plot.subplot(1).setGraphStyle("ggH_top", "hist", linecolor=0)
     plot.subplot(1).setGraphStyle("qqH", "hist", linecolor=styles.color_dict["qqH"], linewidth=3)
     plot.subplot(1).setGraphStyle("qqH_top", "hist", linecolor=0)
-    plot.setGraphStyle("unc_band", "e2", markersize=0, fillcolor=styles.color_dict["unc"])
+    plot.setGraphStyle("unc_band", "e2", markersize=0, fillcolor=styles.color_dict["unc"], linecolor=0)
     
     # in order to show S+B in the ratio plot, add total background to signal hists (get_hist returns a copy) and register the results
     bkg_ggH = plot.subplot(2).get_hist("ggH")
@@ -104,6 +104,32 @@ def main():
     plot.subplot(1).Draw(["stack", "unc_band", "ggH", "ggH_top", "qqH", "qqH_top", "data_obs"])
     plot.subplot(2).Draw(["unc_band", "bkg_ggH", "bkg_ggH_top", "bkg_qqH", "bkg_qqH_top", "data_obs"])
     plot.subplot(3).Draw("stack")
+    
+    # create legends
+    bkg_processes.reverse()
+    suffix = ["", "_top"]
+    for i in range(2):
+        plot.add_legend(width=0.48, height=0.15)
+        for process in bkg_processes:
+            plot.legend(i).add_entry(0, process, styles.label_dict[process.replace("EWK", "EWKZ")], 'f')
+        plot.legend(i).add_entry(0, "unc_band", "Bkg. unc.", 'f')
+        plot.legend(i).add_entry(1, "ggH%s"%suffix[i], "ggH", 'l')
+        plot.legend(i).add_entry(1, "qqH%s"%suffix[i], "qqH", 'l')
+        plot.legend(i).add_entry(0, "data_obs", "Data", 'PE')
+        plot.legend(i).setNColumns(3)
+    plot.legend(0).Draw()
+    plot.legend(1).setAlpha(0.0)
+    plot.legend(1).Draw()
+    
+    for i in range(2):
+        plot.add_legend(reference_subplot=2, pos=1, width=0.4, height=0.03)
+        plot.legend(i+2).add_entry(0, "data_obs", "Data", 'PE')
+        plot.legend(i+2).add_entry(1, "ggH%s"%suffix[i], "ggH+bkg.", 'l')
+        plot.legend(i+2).add_entry(1, "qqH%s"%suffix[i], "qqH+bkg.", 'l')
+        plot.legend(i+2).setNColumns(3)
+    plot.legend(2).Draw()
+    plot.legend(3).setAlpha(0.0)
+    plot.legend(3).Draw()
     
     # draw additional labels
     plot.DrawCMS()

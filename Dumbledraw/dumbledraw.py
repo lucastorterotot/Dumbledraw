@@ -17,6 +17,7 @@ class Plot(object):
         self._canvas = R.TCanvas()
         self._canvas.cd()
         self._subplots = []
+        self._legends = []
         # evaluate splitlist and book
         if isinstance(splitlist, basestring):
             splitlist = [splitlist]
@@ -43,14 +44,27 @@ class Plot(object):
     def nsubplots(self):
         return len(self._subplots)
 
+    @property
+    def nlegends(self):
+        return len(self._legends)
+
     def subplot(self, index):
         if not isinstance(index, int):
-                logger.fatal("Panel index is supposed to be of type int!")
+                logger.fatal("Subplot index is supposed to be of type int!")
                 raise Exception
         if index >= len(self._subplots):
-                logger.fatal("Panel index is out of range!")
+                logger.fatal("Subplot index is out of range!")
                 raise Exception
         return self._subplots[index]
+
+    def legend(self, index):
+        if not isinstance(index, int):
+                logger.fatal("Legend index is supposed to be of type int!")
+                raise Exception
+        if index >= len(self._legends):
+                logger.fatal("Legend index is out of range!")
+                raise Exception
+        return self._legends[index]
 
     def save(self, outputname):
         self._canvas.SaveAs(outputname)        
@@ -79,6 +93,9 @@ class Plot(object):
                 group_name=group_name
             )
 
+    def add_legend(self, reference_subplot=0, width=0.30, height=0.20, pos=3, offset=0.03):
+        self._legends.append(Legend(reference_subplot, width, height, pos, offset, self._subplots))
+    
     def setGraphStyle(self, name, markerstyle, linecolor=1, fillcolor=0, linewidth=1, markersize=1):
         for subplot in self._subplots:
             subplot.setGraphStyle(
@@ -448,3 +465,69 @@ class Subplot(object):
                             logger.fatal("Stacks cannot be normalized!")
                             raise Exception
                         hist[0].Divide(denominator)
+                        
+class Legend(object):
+    def __init__(self, reference_subplot, width, height, pos, offset, subplots):
+        if not isinstance(reference_subplot, int):
+                logger.fatal("Subplot index is supposed to be of type int!")
+                raise Exception
+        if reference_subplot >= len(subplots):
+                logger.fatal("Subplot index is out of range!")
+                raise Exception
+        o = offset
+        w = width
+        h = height
+        l = subplots[reference_subplot]._pad.GetLeftMargin()
+        t = subplots[reference_subplot]._pad.GetTopMargin()
+        b = subplots[reference_subplot]._pad.GetBottomMargin()
+        r = subplots[reference_subplot]._pad.GetRightMargin()
+        if pos == 1:
+            self._legend = R.TLegend(l + o, 1 - t - o - h, l + o + w, 1 - t - o, '', 'NBNDC')
+        if pos == 2:
+            c = l + 0.5 * (1 - l - r)
+            self._legend = R.TLegend(c - 0.5 * w, 1 - t - o - h, c + 0.5 * w, 1 - t - o, '', 'NBNDC')
+        if pos == 3:
+            self._legend = R.TLegend(1 - r - o - w, 1 - t - o - h, 1 - r - o, 1 - t - o, '', 'NBNDC')
+        if pos == 4:
+            self._legend = R.TLegend(l + o, b + o, l + o + w, b + o + h, '', 'NBNDC')
+        if pos == 5:
+            c = l + 0.5 * (1 - l - r)
+            self._legend = R.TLegend(c - 0.5 * w, b + o, c + 0.5 * w, b + o + h, '', 'NBNDC')
+        if pos == 6:
+            self._legend = R.TLegend(1 - r - o - w, b + o, 1 - r - o, b + o + h, '', 'NBNDC')
+        self._subplots = subplots
+        self._textsizescale = 1.
+        self._ncolumns = 1
+        self._FillColor = 0
+        self._alpha = 1.0
+    
+    def add_entry(self, subplot_index, histname, label, style):
+        if not isinstance(subplot_index, int):
+                logger.fatal("Subplot index is supposed to be of type int!")
+                raise Exception
+        if subplot_index >= len(self._subplots):
+                logger.fatal("Subplot index is out of range!")
+                raise Exception
+        if not histname in self._subplots[subplot_index]._hists.keys():
+                logger.fatal("Requested histogram for legend does not exist!")
+                raise Exception
+        self._legend.AddEntry(self._subplots[subplot_index]._hists[histname][0] , label, style)
+        
+    def scaleTextSize(self, scale):
+        self._textsizescale = scale
+    
+    def setNColumns(self, number):
+        self._legend.SetNColumns(number)
+    
+    def setFillColor(self, val):
+        self._FillColor = val
+    
+    def setAlpha(self, val):
+        self._alpha = val
+    
+    def Draw(self):
+        self._legend.SetTextFont(42)
+        self._legend.SetTextSize(0.025*self._textsizescale)
+        self._legend.SetFillColorAlpha(self._FillColor, self._alpha)
+        self._legend.SetColumnSeparation(0)
+        self._legend.Draw("same")
