@@ -3,64 +3,67 @@ import logging
 logger = logging.getLogger(__name__)
 
 COL_STORE = []
+
+
 def CreateTransparentColor(color, alpha):
     adapt = R.gROOT.GetColor(color)
     new_idx = R.gROOT.GetListOfColors().GetLast() + 1
-    trans = R.TColor(
-        new_idx, adapt.GetRed(), adapt.GetGreen(), adapt.GetBlue(), '', alpha)
+    trans = R.TColor(new_idx,
+                     adapt.GetRed(),
+                     adapt.GetGreen(), adapt.GetBlue(), '', alpha)
     COL_STORE.append(trans)
     trans.SetName('userColor%i' % new_idx)
     return new_idx
 
+
 label_dict = {
-    "ggH"  : "ggH",
-    "qqH"  : "qqH",
-    "ZTT"  : "Z#rightarrow#tau#tau",
-    "ZLL"  : "Z#rightarrowll",
-    "ZL"   : "Z#rightarrowll (l#rightarrow#tau_{h})",
-    "ZJ"   : "Z#rightarrowll (jet#rightarrow#tau_{h})",
-    "TT"   : "t#bar{t}",
-    "TTT"  : "t#bar{t} (t#rightarrow#tau_{h})",
-    "TTJ"  : "t#bar{t} (jet#rightarrow#tau_{h})",
-    "W"    : "W+jets",
-    "VV"   : "Di-boson",
-    "QCD"  : "QCD multijet",
-    "EWK"  : "Electroweak",
-    "EWKZ" : "EWKZ",
-    "data_obs" : "Data"
+    "ggH": "ggH",
+    "qqH": "qqH",
+    "ZTT": "Z#rightarrow#tau#tau",
+    "ZLL": "Z#rightarrowll",
+    "ZL": "Z#rightarrowll (l#rightarrow#tau_{h})",
+    "ZJ": "Z#rightarrowll (jet#rightarrow#tau_{h})",
+    "TT": "t#bar{t}",
+    "TTT": "t#bar{t} (t#rightarrow#tau_{h})",
+    "TTJ": "t#bar{t} (jet#rightarrow#tau_{h})",
+    "W": "W+jets",
+    "VV": "Di-boson",
+    "QCD": "QCD multijet",
+    "EWK": "Electroweak",
+    "EWKZ": "EWKZ",
+    "data_obs": "Data"
 }
 
 color_dict = {
-    "ggH"  : R.TColor.GetColor("#BF2229"),
-    "qqH"  : R.TColor.GetColor("#00A88F"),
-    "ZTT"  : R.TColor.GetColor(248,206,104),
-    "ZLL"  : R.TColor.GetColor(100,192,232),
-    "ZL"   : R.TColor.GetColor(100,192,232),
-    "ZJ"   : R.TColor.GetColor("#64DE6A"),
-    "TT"   : R.TColor.GetColor(155,152,204),
-    "TTT"  : R.TColor.GetColor(155,152,204),
-    "TTJ"  : R.TColor.GetColor(215,130,204),
-    "W"    : R.TColor.GetColor(222,90,106),
-    "VV"   : R.TColor.GetColor("#6F2D35"),
-    "QCD"  : R.TColor.GetColor(250,202,255),
-    "EWK"  : R.TColor.GetColor("#E1F5A9"),
-    "EWKZ" : R.TColor.GetColor("#E1F5A9"),
-    "unc"  : CreateTransparentColor(12,0.4)
+    "ggH": R.TColor.GetColor("#BF2229"),
+    "qqH": R.TColor.GetColor("#00A88F"),
+    "ZTT": R.TColor.GetColor(248, 206, 104),
+    "ZLL": R.TColor.GetColor(100, 192, 232),
+    "ZL": R.TColor.GetColor(100, 192, 232),
+    "ZJ": R.TColor.GetColor("#64DE6A"),
+    "TT": R.TColor.GetColor(155, 152, 204),
+    "TTT": R.TColor.GetColor(155, 152, 204),
+    "TTJ": R.TColor.GetColor(215, 130, 204),
+    "W": R.TColor.GetColor(222, 90, 106),
+    "VV": R.TColor.GetColor("#6F2D35"),
+    "QCD": R.TColor.GetColor(250, 202, 255),
+    "EWK": R.TColor.GetColor("#E1F5A9"),
+    "EWKZ": R.TColor.GetColor("#E1F5A9"),
+    "unc": CreateTransparentColor(12, 0.4)
 }
 
+
 def SetStyle(name, **kwargs):
-    styles={
-        "none" : none,
-        "TDR" : SetTDRStyle,
-        "ModTDR" : ModTDRStyle
-    }
+    styles = {"none": none, "TDR": SetTDRStyle, "ModTDR": ModTDRStyle}
     if not name in styles.keys():
-        logger.fatal("%s style not available!"%name)
-    logger.info("Set plotting style to %s"%name)
+        logger.fatal("%s style not available!" % name)
+    logger.info("Set plotting style to %s" % name)
     styles[name](**kwargs)
+
 
 def none():
     pass
+
 
 def SetTDRStyle():
     """Sets the PubComm recommended style
@@ -72,7 +75,7 @@ def SetTDRStyle():
     R.gStyle.SetCanvasColor(R.kWhite)
     R.gStyle.SetCanvasDefH(600)  # Height of canvas
     R.gStyle.SetCanvasDefW(600)  # Width of canvas
-    R.gStyle.SetCanvasDefX(0)    # POsition on screen
+    R.gStyle.SetCanvasDefX(0)  # POsition on screen
     R.gStyle.SetCanvasDefY(0)
 
     # For the Pad:
@@ -270,12 +273,12 @@ def ModTDRStyle(width=600, height=600, t=0.06, b=0.12, l=0.16, r=0.04):
     R.gStyle.SetTitleSize(title_size, 'XYZ')
     R.gStyle.SetLabelSize(label_size, 'XYZ')
 
-    R.gStyle.SetTitleXOffset(0.5 * scale_h *
-                             (1.2 * (def_h * b * scale_h - 0.6 * title_px)) /
-                             title_px)
-    R.gStyle.SetTitleYOffset(0.5 * scale_w *
-                             (1.2 * (def_w * l * scale_w - 0.6 * title_px)) /
-                             title_px)
+    R.gStyle.SetTitleXOffset(
+        0.5 * scale_h * (1.2 *
+                         (def_h * b * scale_h - 0.6 * title_px)) / title_px)
+    R.gStyle.SetTitleYOffset(
+        0.5 * scale_w * (1.2 *
+                         (def_w * l * scale_w - 0.6 * title_px)) / title_px)
 
     # Only draw ticks where we have an axis
     R.gStyle.SetPadTickX(0)
@@ -288,8 +291,17 @@ def ModTDRStyle(width=600, height=600, t=0.06, b=0.12, l=0.16, r=0.04):
     #R.gStyle.SetFillColor(0)
 
     R.gROOT.ForceStyle()
-    
-def DrawCMSLogo(pad, cmsText, extraText, iPosX, relPosX, relPosY, relExtraDY, extraText2='', cmsTextSize=0.8):
+
+
+def DrawCMSLogo(pad,
+                cmsText,
+                extraText,
+                iPosX,
+                relPosX,
+                relPosY,
+                relExtraDY,
+                extraText2='',
+                cmsTextSize=0.8):
     """Blah
     
     Args:
@@ -383,11 +395,12 @@ def DrawCMSLogo(pad, cmsText, extraText, iPosX, relPosX, relPosY, relExtraDY, ex
             latex.SetTextFont(extraTextFont)
             latex.SetTextAlign(align_)
             latex.SetTextSize(extraTextSize * t * pad_ratio)
-            latex.DrawLatex(
-                posX_, posY_ - relExtraDY * cmsTextSize * t, extraText)
+            latex.DrawLatex(posX_, posY_ - relExtraDY * cmsTextSize * t,
+                            extraText)
             if writeExtraText2:
-                latex.DrawLatex(
-                    posX_, posY_ - 1.8 * relExtraDY * cmsTextSize * t, extraText2)
+                latex.DrawLatex(posX_,
+                                posY_ - 1.8 * relExtraDY * cmsTextSize * t,
+                                extraText2)
     elif writeExtraText:
         if iPosX == 0:
             posX_ = l + relPosX * (1 - l - r)
@@ -396,6 +409,7 @@ def DrawCMSLogo(pad, cmsText, extraText, iPosX, relPosX, relPosY, relExtraDY, ex
         latex.SetTextSize(extraTextSize * t * pad_ratio)
         latex.SetTextAlign(align_)
         latex.DrawLatex(posX_, posY_, extraText)
+
 
 def DrawTitle(pad, text, align):
     pad_backup = R.gPad
