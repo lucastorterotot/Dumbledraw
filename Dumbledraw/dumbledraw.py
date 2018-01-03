@@ -96,7 +96,7 @@ class Plot(object):
     def add_legend(self, reference_subplot=0, width=0.30, height=0.20, pos=3, offset=0.03):
         self._legends.append(Legend(reference_subplot, width, height, pos, offset, self._subplots))
     
-    def setGraphStyle(self, name, markerstyle, linecolor=1, fillcolor=0, linewidth=1, markersize=1):
+    def setGraphStyle(self, name, markerstyle, linecolor=1, fillcolor=0, linewidth=1, markersize=1, fillstyle=1001):
         for subplot in self._subplots:
             subplot.setGraphStyle(
                 name=name,
@@ -104,7 +104,8 @@ class Plot(object):
                 linecolor=linecolor,
                 fillcolor=fillcolor,
                 linewidth=linewidth,
-                markersize=markersize
+                markersize=markersize,
+                fillstyle=fillstyle
             )
 
     def create_stack(self, hist_names, name, group_name="invisible"):
@@ -381,7 +382,7 @@ class Subplot(object):
         hist.GetYaxis().SetTickLength(0.02/self._height)
         
     # sets style for specific histogram or group
-    def setGraphStyle(self, name, markerstyle, linecolor=1, fillcolor=0, linewidth=1, markersize=1):
+    def setGraphStyle(self, name, markerstyle, linecolor=1, fillcolor=0, linewidth=1, markersize=1, fillstyle=1001):
         markerstyledict = {
             
         }
@@ -396,6 +397,7 @@ class Subplot(object):
             self._hists[name][0].SetFillColor(fillcolor)
             self._hists[name][0].SetLineWidth(linewidth)
             self._hists[name][0].SetMarkerSize(markersize)
+            self._hists[name][0].SetFillStyle(fillstyle)
         else:
             for hist in self._hists.values():
                 if hist[1]==name:
@@ -407,6 +409,7 @@ class Subplot(object):
                     hist[0].SetFillColor(fillcolor)
                     hist[0].SetLineWidth(linewidth)
                     hist[0].SetMarkerSize(markersize)
+                    hist[0].SetFillStyle(fillstyle)
     
     # creates stack from registered histograms defined via name or group name
     def create_stack(self, hist_names, name, group_name="invisible"): 
