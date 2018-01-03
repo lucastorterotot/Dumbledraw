@@ -39,7 +39,7 @@ color_dict = {
     "ZJ"   : R.TColor.GetColor("#64DE6A"),
     "TT"   : R.TColor.GetColor(155,152,204),
     "TTT"  : R.TColor.GetColor(155,152,204),
-    "TTJ"  : R.TColor.GetColor(155,152,204),
+    "TTJ"  : R.TColor.GetColor(215,130,204),
     "W"    : R.TColor.GetColor(222,90,106),
     "VV"   : R.TColor.GetColor("#6F2D35"),
     "QCD"  : R.TColor.GetColor(250,202,255),
