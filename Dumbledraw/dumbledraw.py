@@ -218,7 +218,9 @@ class Subplot(object):
             logger.fatal("Histogram name %s already used!")
             raise Exception
         if not isinstance(hist, R.TH1F):
-            logger.fatal("add_hist expects a TH1F!")
+            logger.fatal(
+                "add_hist expects a TH1F with name {}, got object {}".format(
+                    name, hist))
             raise Exception
         self._hists[name] = [
             copy.deepcopy(hist), group_name, ""
