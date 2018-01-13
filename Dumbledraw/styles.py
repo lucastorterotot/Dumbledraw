@@ -17,6 +17,7 @@ def CreateTransparentColor(color, alpha):
 
 
 label_dict = {
+    "HTT": "H#rightarrow#tau#tau",
     "ggH": "ggH",
     "qqH": "qqH",
     "ZTT": "Z#rightarrow#tau#tau",
