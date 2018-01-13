@@ -510,6 +510,15 @@ class Subplot(object):
                             raise Exception
                         hist[0].Divide(denominator)
 
+    # normalizes bin contents of all histograms in the subplot to their bin width
+    def normalizeByBinWidth(self):
+        for hist in self._hists.values():
+            if not isinstance(hist[0], R.THStack):
+                denominator = copy.deepcopy(hist[0])
+                for i in range(denominator.GetNbinsX()):
+                    denominator.SetBinContent(i+1, denominator.GetBinWidth(i+1))
+                    denominator.SetBinError(i+1, 0.0)
+                hist[0].Divide(denominator)
 
 class Legend(object):
     def __init__(self, reference_subplot, width, height, pos, offset,
