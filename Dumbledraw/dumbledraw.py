@@ -282,18 +282,9 @@ class Subplot(object):
     def DrawSingle(self, hist, isFirst):
         self._pad.cd()
         if isFirst:
-            #hist[0].Draw() # needed for stacks
-            if self._ylims != None and isinstance(
-                    hist[0], R.THStack
-            ):  # otherwise lims are not set without a unintended margin
-                axishist = hist[0].GetHists()[0]
-                self.setAxisStyles(axishist)
-                axishist.Draw(hist[2])
-                hist[0].Draw(hist[2] + "SAME")
-            else:
-                hist[0].Draw()  # needed for stacks
-                self.setAxisStyles(hist[0])
-                hist[0].Draw(hist[2])
+            hist[0].Draw()  # needed for stacks
+            self.setAxisStyles(hist[0])
+            hist[0].Draw(hist[2] + " ") # looks stupid, but if it works it ain't stupid
         else:
             hist[0].Draw(hist[2] + "SAME")
 
