@@ -82,7 +82,7 @@ class Plot(object):
 
     def DrawCMS(self):
         styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
-                           0.045, 0.05, 1.0, '', 1.0)
+                           0.045, 0.05, 1.0, '', 0.6)
 
     def DrawLumi(self, lumi):
         styles.DrawTitle(self._subplots[0]._pad, lumi, 3)
@@ -284,7 +284,8 @@ class Subplot(object):
         if isFirst:
             hist[0].Draw()  # needed for stacks
             self.setAxisStyles(hist[0])
-            hist[0].Draw(hist[2] + " ") # looks stupid, but if it works it ain't stupid
+            hist[0].Draw(
+                hist[2] + " ")  # looks stupid, but if it works it ain't stupid
         else:
             hist[0].Draw(hist[2] + "SAME")
 
@@ -507,9 +508,11 @@ class Subplot(object):
             if not isinstance(hist[0], R.THStack):
                 denominator = copy.deepcopy(hist[0])
                 for i in range(denominator.GetNbinsX()):
-                    denominator.SetBinContent(i+1, denominator.GetBinWidth(i+1))
-                    denominator.SetBinError(i+1, 0.0)
+                    denominator.SetBinContent(i + 1,
+                                              denominator.GetBinWidth(i + 1))
+                    denominator.SetBinError(i + 1, 0.0)
                 hist[0].Divide(denominator)
+
 
 class Legend(object):
     def __init__(self, reference_subplot, width, height, pos, offset,

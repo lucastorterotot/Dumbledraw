@@ -1,42 +1,23 @@
 import ROOT as R
 import logging
+import yaml
 logger = logging.getLogger(__name__)
 
 COL_STORE = []
+labels_path = 'Dumbledraw/Dumbledraw/labels.yaml'
 
 
 def CreateTransparentColor(color, alpha):
     adapt = R.gROOT.GetColor(color)
     new_idx = R.gROOT.GetListOfColors().GetLast() + 1
-    trans = R.TColor(new_idx,
-                     adapt.GetRed(),
-                     adapt.GetGreen(), adapt.GetBlue(), '', alpha)
+    trans = R.TColor(new_idx, adapt.GetRed(), adapt.GetGreen(),
+                     adapt.GetBlue(), '', alpha)
     COL_STORE.append(trans)
     trans.SetName('userColor%i' % new_idx)
     return new_idx
 
 
-label_dict = {
-    "HTT": "H#rightarrow#tau#tau",
-    "ggH": "ggH",
-    "qqH": "qqH",
-    "ZTT": "Z#rightarrow#tau#tau",
-    "ZLL": "Z#rightarrowll",
-    "ZL": "Z#rightarrowll (l#rightarrow#tau_{h})",
-    "ZJ": "Z#rightarrowll (jet#rightarrow#tau_{h})",
-    "TT": "t#bar{t}",
-    "TTT": "t#bar{t} (t#rightarrow#tau_{h})",
-    "TTJ": "t#bar{t} (jet#rightarrow#tau_{h})",
-    "W": "W+jets",
-    "WT": "(W#rightarrow#tau)+jets",
-    "WL": "(W#slash{#rightarrow}#tau)+jets",
-    "VV": "Di-boson",
-    "QCD": "QCD multijet",
-    "EWK": "Electroweak",
-    "EWKZ": "EWKZ",
-    "data_obs": "Data"
-}
-
+label_dict = yaml.load(open(labels_path))['legend_label']
 color_dict = {
     "ggH": R.TColor.GetColor("#BF2229"),
     "qqH": R.TColor.GetColor("#00A88F"),
