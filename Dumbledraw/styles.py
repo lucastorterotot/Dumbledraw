@@ -280,6 +280,7 @@ def ModTDRStyle(width=600, height=600, t=0.06, b=0.12, l=0.16, r=0.04):
 
     R.gROOT.ForceStyle()
 
+    R.TGaxis.SetExponentOffset(-0.07, 0.0, "y");
 
 def DrawCMSLogo(pad,
                 cmsText,
