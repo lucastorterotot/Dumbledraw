@@ -286,7 +286,8 @@ class Subplot(object):
             if self._ylims != None and isinstance(
                     hist[0], R.THStack
             ):  # otherwise lims are not set without a unintended margin
-                axishist = hist[0].GetHists()[0]
+                copystack = copy.deepcopy(hist[0])
+                axishist = copystack.GetHists()[0]
                 self.setAxisStyles(axishist)
                 axishist.Draw(hist[2])
                 hist[0].Draw(hist[2] + "SAME")
