@@ -1,6 +1,7 @@
 x_label:
   mt:
     m_vis: 'Visible di-#tau mass / GeV'
+    m_sv: 'Di-#tau mass / GeV'
     pt_1: 'Muon p_{T} / GeV'
     pt_2: 'Tau p_{T} / GeV'
     eta_1: 'Muon #eta'
@@ -20,6 +21,7 @@ x_label:
     met: 'Missing transverse Energy / GeV' 
   et:
     m_vis: 'Visible di-#tau mass / GeV'
+    m_sv: 'Di-#tau mass / GeV'
     pt_1: 'Electron p_{T} / GeV'
     pt_2: 'Tau p_{T} / GeV'
     eta_1: 'Electron #eta'
@@ -39,6 +41,7 @@ x_label:
     met: 'Missing transverse Energy / GeV' 
   tt:
     m_vis: 'Visible di-#tau mass / GeV'
+    m_sv: 'Di-#tau mass / GeV'
     pt_1: 'Leading Tau p_{T} / GeV'
     pt_2: 'Trailing Tau p_{T} / GeV'
     eta_1: 'Leading Tau #eta'
