@@ -34,9 +34,12 @@ color_dict = {
     "WT": R.TColor.GetColor(222, 90, 106),
     "WL": R.TColor.GetColor(222, 150, 80),
     "VV": R.TColor.GetColor("#6F2D35"),
+    "VVT": R.TColor.GetColor("#6F2D35"),
+    "VVJ": R.TColor.GetColor("#c38a91"),
     "QCD": R.TColor.GetColor(250, 202, 255),
     "EWK": R.TColor.GetColor("#E1F5A9"),
     "EWKZ": R.TColor.GetColor("#E1F5A9"),
+    "jetFakes": R.TColor.GetColor(192, 232, 100),
     "unc": CreateTransparentColor(12, 0.4)
 }
 
