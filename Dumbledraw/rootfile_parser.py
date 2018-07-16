@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class Rootfile_parser(object):
-    def __init__(self, inputrootfilename):
+    def __init__(self, inputrootfilename, mode="CombineHarvester"):
         self._rootfilename = inputrootfilename
         self._rootfile = ROOT.TFile(self._rootfilename, "READ")
         self._type = "control"
@@ -21,6 +21,14 @@ class Rootfile_parser(object):
                 self._type = "postfit"
         logger.debug("Identified rootfile %s as %s shapes" %
                      (inputrootfilename, self._type))
+        if mode == "standard":
+            self._hist_hash = "{channel}_{category}{plottype}/{process}{unc}"
+        elif mode == "CombineHarvester":
+            self._hist_hash = "htt_{channel}_{category}_13TeV{plottype}/{process}{unc}"
+        else:
+            logger.fatal("Cannot detect mode to open file {}.".format(mode))
+            raise Exception
+        logger.debug("Use mode {} to read file.".format(mode))
 
     @property
     def rootfile(self):
@@ -31,7 +39,7 @@ class Rootfile_parser(object):
             logger.fatal(
                 "Uncertainty shapes are only available in control plots!")
             raise Exception
-        hist_hash = "{channel}_{category}{plottype}/{process}{unc}".format(
+        hist_hash = self._hist_hash.format(
             channel=channel,
             category=category,
             process=process,
@@ -42,8 +50,8 @@ class Rootfile_parser(object):
             hist_hash = hist_hash.format(plottype="", unc=syst)
         else:
             hist_hash = hist_hash.format(plottype="_" + self._type, unc="")
-        logger.debug("Try to access %s in %s" % (hist_hash,
-                                                 self._rootfilename))
+        logger.debug(
+            "Try to access %s in %s" % (hist_hash, self._rootfilename))
         return self._rootfile.Get(hist_hash)
 
     def get_bins(self, channel, category, process, syst=None):
