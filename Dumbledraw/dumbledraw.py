@@ -71,14 +71,16 @@ class Plot(object):
         self._canvas.SaveAs(outputname)
         logger.info("Created %s" % outputname)
 
-    def DrawChannelCategoryLabel(self, text):
+    def DrawChannelCategoryLabel(self, text, begin_left=None):
         ypos = 0.960 if "_{" in text else 0.955
         latex2 = R.TLatex()
         latex2.SetNDC()
         latex2.SetTextAngle(0)
         latex2.SetTextColor(R.kBlack)
         latex2.SetTextSize(0.04)
-        latex2.DrawLatex(0.145, 0.960, text)
+        if begin_left == None:
+            begin_left = 0.145
+        latex2.DrawLatex(begin_left, 0.960, text)
 
     def DrawCMS(self):
         styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
@@ -461,8 +463,8 @@ class Subplot(object):
         for hist_name in hist_names:
             if hist_name in self._hists.keys():
                 stack.Add(self._hists[hist_name][0])
-                logger.debug("Added histogram %s to stack %s" % (hist_name,
-                                                                 name))
+                logger.debug(
+                    "Added histogram %s to stack %s" % (hist_name, name))
             else:
                 for key, hist in self._hists.iteritems():
                     if hist_name == hist[1]:
@@ -472,8 +474,8 @@ class Subplot(object):
                             )
                             raise Exception
                         stack.Add(hist[0])
-                        logger.debug("Added histogram %s to stack %s" % (key,
-                                                                         name))
+                        logger.debug(
+                            "Added histogram %s to stack %s" % (key, name))
         self._hists[name] = [stack, group_name, "hist"]
 
     # normalizes one or more histograms to a given denominator
