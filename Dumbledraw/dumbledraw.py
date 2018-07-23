@@ -89,6 +89,15 @@ class Plot(object):
     def DrawLumi(self, lumi):
         styles.DrawTitle(self._subplots[0]._pad, lumi, 3)
 
+    def DrawText(self, x, y, text):
+        ypos = 0.8
+        latex2 = R.TLatex()
+        latex2.SetNDC()
+        latex2.SetTextAngle(0)
+        latex2.SetTextColor(R.kBlack)
+        latex2.SetTextSize(0.04)
+        latex2.DrawLatex(x, y, text)
+
     def add_hist(self, hist, name, group_name="invisible"):
         for subplot in self._subplots:
             subplot.add_hist(hist=hist, name=name, group_name=group_name)
