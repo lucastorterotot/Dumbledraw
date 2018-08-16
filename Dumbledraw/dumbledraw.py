@@ -433,7 +433,7 @@ class Subplot(object):
                       markersize=1,
                       fillstyle=1001):
         markerstyledict = {}
-        if markerstyle in markerstyledict.values():
+        if markerstyle in markerstyledict.keys():
             markerstyle = markerstyledict[markerstyle]
         if name in self._hists.keys():
             if isinstance(self._hists[name][0], R.THStack):
