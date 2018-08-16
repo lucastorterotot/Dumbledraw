@@ -431,6 +431,7 @@ class Subplot(object):
                       fillcolor=0,
                       linewidth=1,
                       markersize=1,
+                      linestyle=1,
                       fillstyle=1001):
         markerstyledict = {}
         if markerstyle in markerstyledict.keys():
@@ -445,6 +446,7 @@ class Subplot(object):
             self._hists[name][0].SetFillColor(fillcolor)
             self._hists[name][0].SetLineWidth(linewidth)
             self._hists[name][0].SetMarkerSize(markersize)
+            self._hists[name][0].SetLineStyle(linestyle)
             self._hists[name][0].SetFillStyle(fillstyle)
         else:
             for hist in self._hists.values():
@@ -458,6 +460,7 @@ class Subplot(object):
                     hist[0].SetFillColor(fillcolor)
                     hist[0].SetLineWidth(linewidth)
                     hist[0].SetMarkerSize(markersize)
+                    hist[0].SetLineStyle(linestyle)
                     hist[0].SetFillStyle(fillstyle)
 
     # creates stack from registered histograms defined via name or group name
