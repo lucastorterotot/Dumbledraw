@@ -287,6 +287,47 @@ def ModTDRStyle(width=600, height=600, t=0.06, b=0.12, l=0.16, r=0.04):
 
     R.TGaxis.SetExponentOffset(-0.07, 0.0, "y");
 
+def DrawText(pad, text, scale_text_size, pos, angle, custom_pos = None):
+    pad.cd()
+    left_border = pad.GetLeftMargin()
+    right_border = 1.0 - pad.GetRightMargin()
+    top_border = 1.0 - pad.GetTopMargin()
+    bottom_border = pad.GetBottomMargin()
+    
+    x_pos = 0.0
+    y_pos = 0.0
+    alignment = 22
+    
+    if custom_pos != None:
+        if not (isinstance(custom_pos, list) and len(custom_pos) == 2):
+            logger.fatal("Custom text position must be list with two entries, i.e. relative x and y coordinate in the pad")
+            raise Exception
+        else:
+            x_pos = left_border + custom_pos[0] * (right_border - left_border)
+            y_pos = bottom_border + custom_pos[0] * (top_border - bottom_border)
+    else:
+        if pos >= 1 and pos <= 9:
+            pos = pos - 1
+            x_pos = left_border + (0.07 + (pos % 3) * 0.43) * (right_border - left_border)
+            y_pos = top_border + (0.07 + (pos / 3) * 0.43) * (bottom_border - top_border)
+            alignment = 10 * ((pos % 3) + 1) + 3 - (pos / 3)
+            if angle == 90:
+                alignment = 10 * (alignment % 10) + 4 - alignment / 10
+            elif angle == 270 or angle == -90:
+                alignment = 40 - 10 * (alignment % 10) + alignment / 10
+        else:
+            logger.fatal("DrawText: pos must be in range [1 ... 9]")
+            raise Exception
+
+    latex = R.TLatex()
+    latex.SetNDC()
+    latex.SetTextAlign(alignment)
+    latex.SetTextAngle(angle)
+    latex.SetTextFont(42)
+    latex.SetTextColor(R.kBlack)
+    latex.SetTextSize(0.04 * scale_text_size)
+    latex.DrawLatex(x_pos, y_pos, text)
+
 def DrawCMSLogo(pad,
                 cmsText,
                 extraText,
