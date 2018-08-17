@@ -4,6 +4,7 @@
 import argparse
 import logging
 import copy
+import numpy
 import ROOT as R
 #import rootfile_parser
 logger = logging.getLogger(__name__)
@@ -175,6 +176,12 @@ class Plot(object):
         for subplot in self._subplots:
             subplot.scaleYLabelOffset(val)
 
+    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, pads_to_print_labels = None):
+        empty_labels = ["" for label in ur_bin_labels]
+        for i, subplot in enumerate(self._subplots):
+            subplot.unroll(ur_bin_labels if (pads_to_print_labels == None or i in pads_to_print_labels) else empty_labels,
+                           ur_label_pos, ur_label_angle)
+
 
 class Subplot(object):
     def __init__(self, name, lower_bound=0.0, upper_bound=1.0):
@@ -213,11 +220,17 @@ class Subplot(object):
         self._ytitlesize = None
         self._nxdivisions = None
         self._nydivisions = None
+        self._changexlabels = None
+        self._changeylabels = None
         self._xtitleoffsetscale = 1.0
         self._ytitleoffsetscale = 1.0
         self._xlabeloffsetscale = 1.0
         self._ylabeloffsetscale = 1.0
         self._height = 1 - upper_margin - lower_margin
+        self._unroll = None
+        self._unroll_pads = []
+        self._unroll_label_pos = 9
+        self._unroll_label_angle = 270
 
     @property
     def hists(self):
@@ -266,28 +279,34 @@ class Subplot(object):
 
     # draws all histograms assigned to the subplot except those with group name "invisible"
     def DrawAll(self):
-        isFirst = True
-        for hist in self._hists.values():
-            if not hist[1] == "invisible":
-                self.DrawSingle(hist, isFirst)
-                isFirst = False
-        R.gPad.RedrawAxis()
+        if isinstance(self._unroll, list):
+            self.DrawUnrolled([entry for entry in self._hists() if not self._hists[entry][1] == "invisible"])
+        else:
+            isFirst = True
+            for hist in self._hists.values():
+                if not hist[1] == "invisible":
+                    self.DrawSingle(hist, isFirst)
+                    isFirst = False
+            R.gPad.RedrawAxis()
 
     # draws specific histograms assigned to the subplot selected via a list of individual names and/or group names
     def Draw(self, names):
-        if isinstance(names, basestring):
-            names = [names]
-        isFirst = True
-        for name in names:
-            if name in self._hists.keys():
-                self.DrawSingle(self._hists[name], isFirst)
-                isFirst = False
-            else:
-                for entry in self._hists.values():
-                    if entry[1] == name:
-                        self.DrawSingle(entry, isFirst)
-                        isFirst = False
-        R.gPad.RedrawAxis()
+        if isinstance(self._unroll, list):
+            self.DrawUnrolled(names)
+        else:
+            if isinstance(names, basestring):
+                names = [names]
+            isFirst = True
+            for name in names:
+                if name in self._hists.keys():
+                    self.DrawSingle(self._hists[name], isFirst)
+                    isFirst = False
+                else:
+                    for entry in self._hists.values():
+                        if entry[1] == name:
+                            self.DrawSingle(entry, isFirst)
+                            isFirst = False
+            R.gPad.RedrawAxis()
 
     # draws single ROOT histogram. If isFirst is True, formatting is applied and histogram overwrites existing drawings, else it is added
     def DrawSingle(self, hist, isFirst):
@@ -308,6 +327,61 @@ class Subplot(object):
                 hist[0].Draw(hist[2])
         else:
             hist[0].Draw(hist[2] + "SAME")
+
+    def DrawUnrolled(self, names):
+        if not isinstance(self._unroll, list):
+            logger.fatal("A list of bin labels must be given for unrolling!")
+            raise Exception
+        n_bins = len(self._unroll)
+        #determine ranges
+        if self._xlims == None:
+            hist = self._hists[names[0]][0]
+            if isinstance(hist, R.THStack):
+                hist = hist.GetHists()[0]
+            self._xlims = [hist.GetXaxis().GetXmin(), hist.GetXaxis().GetXmax()]
+        axis_borders = [self._xlims[0]]
+        pad_borders = [self._pad.GetLeftMargin()]
+        for i in range(n_bins):
+            axis_borders.append(self._xlims[0] + (self._xlims[1] - self._xlims[0]) / n_bins * (i + 1))
+            pad_borders.append(self._pad.GetLeftMargin() + (1.0 - self._pad.GetRightMargin() - self._pad.GetLeftMargin()) / n_bins * (i + 1))
+        #create subpads
+        copy_me = copy.deepcopy(self)
+        for i, entry in enumerate(self._unroll):
+            self._unroll_pads.append(copy.deepcopy(copy_me))
+            self._unroll_pads[i]._unroll = entry
+            self._unroll_pads[i]._xlims = [axis_borders[i], axis_borders[i+1]]
+            self._unroll_pads[i]._pad.SetLeftMargin(pad_borders[i])
+            self._unroll_pads[i]._pad.SetRightMargin(1.0 - pad_borders[i+1])
+            self._unroll_pads[i]._pad.Draw()
+            if i > 0:
+                self._unroll_pads[i]._ylabelsize = 0.0
+                self._unroll_pads[i]._ytitlesize = 0.0
+            if i < n_bins - 1:
+                self._unroll_pads[i]._xtitlesize = 0.0
+            if self._unroll_pads[i]._nxdivisions == None:
+                self._unroll_pads[i]._nxdivisions = [4, 0, 4, False]
+            offs = axis_borders[0]
+            incr = (axis_borders[1] - axis_borders[0]) / 4.0
+            if self._unroll_pads[i]._changexlabels == None:
+                self._unroll_pads[i]._changexlabels = [" ",
+                                                       "{:.1f}".format(offs + 1 * incr),
+                                                       "{:.1f}".format(offs + 2 * incr),
+                                                       "{:.1f}".format(offs + 3 * incr),
+                                                       " "]
+                
+            #fix y range
+            if self._ylims == None:
+                hist = self._hists[names[0]][0]
+                if isinstance(hist, R.THStack):
+                    copystack = copy.deepcopy(hist)
+                    hist = copystack.GetHists()[0]
+                self._unroll_pads[i]._ylims = [hist.GetMinimum()/1.1, hist.GetMaximum()*1.2]
+                if self._logy and self._unroll_pads[i]._ylims[0] == 0.0:
+                    self._unroll_pads[i]._ylims[0] = self._unroll_pads[i]._ylims[1]/10.0
+        #draw subpads
+        for unroll_pad in self._unroll_pads:
+            unroll_pad.Draw(names)
+            styles.DrawText(unroll_pad._pad, unroll_pad._unroll, 1.0, self._unroll_label_pos, self._unroll_label_angle)
 
     def setXlabel(self, label):
         self._xlabel = label
@@ -422,6 +496,14 @@ class Subplot(object):
         if self._nydivisions != None:
             hist.GetYaxis().SetNdivisions(*self._nydivisions)
         hist.GetYaxis().SetTickLength(0.02 / self._height)
+        
+        #change axis labels
+        if self._changexlabels != None:
+            for i, label in enumerate(self._changexlabels):
+                hist.GetXaxis().ChangeLabel(i+1, -1, -1, -1, -1, -1, label)
+        if self._changeylabels != None:
+            for i, label in enumerate(self._changeylabels):
+                hist.GetYaxis().ChangeLabel(i+1, -1, -1, -1, -1, -1, label)
 
     # sets style for specific histogram or group
     def setGraphStyle(self,
@@ -535,6 +617,12 @@ class Subplot(object):
                                               denominator.GetBinWidth(i + 1))
                     denominator.SetBinError(i + 1, 0.0)
                 hist[0].Divide(denominator)
+
+
+    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270):
+        self._unroll = ur_bin_labels
+        self._unroll_label_pos = ur_label_pos
+        self._unroll_label_angle = ur_label_angle
 
 
 class Legend(object):
