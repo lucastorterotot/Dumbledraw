@@ -186,6 +186,14 @@ class Plot(object):
             subplot.unroll(ur_bin_labels if (pads_to_print_labels == None or i in pads_to_print_labels) else empty_labels,
                            ur_label_pos, ur_label_angle, ur_label_size)
 
+    def changeXLabels(self, replacement_list): #requires list of strings with one string per labeled tick
+        for subplot in self._subplots:
+            subplot.changeXLabels(replacement_list)
+
+    def changeYLabels(self, replacement_list):
+        for subplot in self._subplots:
+            subplot.changeYLabels(replacement_list)
+
 
 class Subplot(object):
     def __init__(self, name, lower_bound=0.0, upper_bound=1.0):
@@ -632,6 +640,18 @@ class Subplot(object):
         self._unroll_label_pos = ur_label_pos
         self._unroll_label_angle = ur_label_angle
         self._unroll_label_scalesize = ur_label_size
+
+    def changeXLabels(self, replacement_list):
+        if not isinstance(replacement_list, list):
+            logger.fatal("changeXLabels requires list as input!")
+            raise Exception
+        self._changexlabels = replacement_list
+
+    def changeYLabels(self, replacement_list):
+        if not isinstance(replacement_list, list):
+            logger.fatal("changeYLabels requires list as input!")
+            raise Exception
+        self._changeYlabels = replacement_list
 
 
 class Legend(object):
