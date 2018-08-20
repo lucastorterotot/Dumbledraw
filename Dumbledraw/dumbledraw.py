@@ -4,7 +4,6 @@
 import argparse
 import logging
 import copy
-import numpy
 import ROOT as R
 #import rootfile_parser
 logger = logging.getLogger(__name__)
