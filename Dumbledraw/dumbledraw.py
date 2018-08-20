@@ -156,9 +156,13 @@ class Plot(object):
         for subplot in self._subplots:
             subplot.setXlims(low, high)
 
-    def setNXdivisions(self, nprimary, nsecondary):
+    def setNXdivisions(self, nprimary, nsecondary, ntertiary=0, optimize=True):
         for subplot in self._subplots:
-            subplot.setNXdivisions(nprimary, nsecondary)
+            subplot.setNXdivisions(nprimary, nsecondary, ntertiary, optimize)
+
+    def setNYdivisions(self, nprimary, nsecondary, ntertiary=0, optimize=True):
+        for subplot in self._subplots:
+            subplot.setNYdivisions(nprimary, nsecondary, ntertiary, optimize)
 
     def scaleXTitleOffset(self, val):
         for subplot in self._subplots:
@@ -176,11 +180,11 @@ class Plot(object):
         for subplot in self._subplots:
             subplot.scaleYLabelOffset(val)
 
-    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, pads_to_print_labels = None):
+    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, ur_label_size = 1.0, pads_to_print_labels = None):
         empty_labels = ["" for label in ur_bin_labels]
         for i, subplot in enumerate(self._subplots):
             subplot.unroll(ur_bin_labels if (pads_to_print_labels == None or i in pads_to_print_labels) else empty_labels,
-                           ur_label_pos, ur_label_angle)
+                           ur_label_pos, ur_label_angle, ur_label_size)
 
 
 class Subplot(object):
@@ -231,6 +235,8 @@ class Subplot(object):
         self._unroll_pads = []
         self._unroll_label_pos = 9
         self._unroll_label_angle = 270
+        self._unroll_label_scalesize = 1.0
+        self._scale_ticklength = 1.0
 
     @property
     def hists(self):
@@ -344,6 +350,8 @@ class Subplot(object):
         for i in range(n_bins):
             axis_borders.append(self._xlims[0] + (self._xlims[1] - self._xlims[0]) / n_bins * (i + 1))
             pad_borders.append(self._pad.GetLeftMargin() + (1.0 - self._pad.GetRightMargin() - self._pad.GetLeftMargin()) / n_bins * (i + 1))
+        #fix ticklengths
+        self._scale_ticklength = 2.0 / n_bins
         #create subpads
         copy_me = copy.deepcopy(self)
         for i, entry in enumerate(self._unroll):
@@ -381,7 +389,7 @@ class Subplot(object):
         #draw subpads
         for unroll_pad in self._unroll_pads:
             unroll_pad.Draw(names)
-            styles.DrawText(unroll_pad._pad, unroll_pad._unroll, 1.0, self._unroll_label_pos, self._unroll_label_angle)
+            styles.DrawText(unroll_pad._pad, unroll_pad._unroll, unroll_pad._unroll_label_scalesize, self._unroll_label_pos, self._unroll_label_angle)
 
     def setXlabel(self, label):
         self._xlabel = label
@@ -413,11 +421,11 @@ class Subplot(object):
     def scaleYTitleSize(self, val):
         self._ytitlesize = val
 
-    def setNXdivisions(self, nprimary, nsecondary):
-        self._nxdivisions = [nprimary, nsecondary, 0, True]
+    def setNXdivisions(self, nprimary, nsecondary, ntertiary=0, optimize=True):
+        self._nxdivisions = [nprimary, nsecondary, ntertiary, optimize]
 
-    def setNYdivisions(self, nprimary, nsecondary):
-        self._nydivisions = [nprimary, nsecondary, 0, True]
+    def setNYdivisions(self, nprimary, nsecondary, ntertiary=0, optimize=True):
+        self._nydivisions = [nprimary, nsecondary, ntertiary, optimize]
 
     def scaleXTitleOffset(self, val):
         self._xtitleoffsetscale = val
@@ -495,7 +503,7 @@ class Subplot(object):
             hist.GetXaxis().SetNdivisions(*self._nxdivisions)
         if self._nydivisions != None:
             hist.GetYaxis().SetNdivisions(*self._nydivisions)
-        hist.GetYaxis().SetTickLength(0.02 / self._height)
+        hist.GetYaxis().SetTickLength(0.02 / self._height * self._scale_ticklength)
         
         #change axis labels
         if self._changexlabels != None:
@@ -619,10 +627,11 @@ class Subplot(object):
                 hist[0].Divide(denominator)
 
 
-    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270):
+    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, ur_label_size = 1.0):
         self._unroll = ur_bin_labels
         self._unroll_label_pos = ur_label_pos
         self._unroll_label_angle = ur_label_angle
+        self._unroll_label_scalesize = ur_label_size
 
 
 class Legend(object):
