@@ -5,6 +5,7 @@ import argparse
 import logging
 import copy
 import ROOT as R
+import math
 #import rootfile_parser
 logger = logging.getLogger(__name__)
 
@@ -354,8 +355,10 @@ class Subplot(object):
             self._xlims = [hist.GetXaxis().GetXmin(), hist.GetXaxis().GetXmax()]
         axis_borders = [self._xlims[0]]
         pad_borders = [self._pad.GetLeftMargin()]
+        axisrange = self._xlims[1] - self._xlims[0]
+        inv_round_order = 10.0**(4-math.floor(math.log10(axisrange)))
         for i in range(n_bins):
-            axis_borders.append(self._xlims[0] + (self._xlims[1] - self._xlims[0]) / n_bins * (i + 1))
+            axis_borders.append(int((self._xlims[0] + axisrange / n_bins * (i + 1))*inv_round_order)/inv_round_order)
             pad_borders.append(self._pad.GetLeftMargin() + (1.0 - self._pad.GetRightMargin() - self._pad.GetLeftMargin()) / n_bins * (i + 1))
         #fix ticklengths
         self._scale_ticklength = 2.0 / n_bins
