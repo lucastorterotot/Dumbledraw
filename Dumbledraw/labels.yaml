@@ -22,6 +22,8 @@ x_label:
     mjj: 'Di-jet Mass m_{jj} / GeV'
     dijetpt: 'Di-jet p_{T} / GeV'
     met: 'Missing transverse Energy / GeV'
+    bpt_1: 'Leading b-Jet p_{T} / GeV'
+    bpt_2: 'Trailing b-Jet p_{T} / GeV'
   mt:
     m_vis: 'Visible di-#tau mass / GeV'
     m_sv: 'Di-#tau mass / GeV'
@@ -44,7 +46,9 @@ x_label:
     pt_tt: 'p_{T}(#tau#tau) / GeV'
     mjj: 'Di-jet Mass m_{jj} / GeV'
     dijetpt: 'Di-jet p_{T} / GeV'
-    met: 'Missing transverse Energy / GeV' 
+    met: 'Missing transverse Energy / GeV'
+    bpt_1: 'Leading b-Jet p_{T} / GeV'
+    bpt_2: 'Trailing b-Jet p_{T} / GeV'
   et:
     m_vis: 'Visible di-#tau mass / GeV'
     m_sv: 'Di-#tau mass / GeV'
@@ -67,7 +71,9 @@ x_label:
     pt_tt: 'p_{T}(#tau#tau) / GeV'
     mjj: 'Di-jet Mass m_{jj} / GeV'
     dijetpt: 'Di-jet p_{T} / GeV'
-    met: 'Missing transverse Energy / GeV' 
+    met: 'Missing transverse Energy / GeV'
+    bpt_1: 'Leading b-Jet p_{T} / GeV'
+    bpt_2: 'Trailing b-Jet p_{T} / GeV'
   tt:
     m_vis: 'Visible di-#tau mass / GeV'
     m_sv: 'Di-#tau mass / GeV'
@@ -90,7 +96,9 @@ x_label:
     pt_tt: 'p_{T}(#tau#tau) / GeV'
     mjj: 'Di-jet Mass m_{jj} / GeV'
     dijetpt: 'Di-jet p_{T} / GeV'
-    met: 'Missing transverse Energy / GeV' 
+    met: 'Missing transverse Energy / GeV'
+    bpt_1: 'Leading b-Jet p_{T} / GeV'
+    bpt_2: 'Trailing b-Jet p_{T} / GeV'
 legend_label:
     HTT: 'H#rightarrow#tau#tau'
     ggH: 'ggH'
