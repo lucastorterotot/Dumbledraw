@@ -180,11 +180,11 @@ class Plot(object):
         for subplot in self._subplots:
             subplot.scaleYLabelOffset(val)
 
-    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, ur_label_size = 1.0, pads_to_print_labels = None):
+    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, ur_label_size = 1.0, selection = None, pads_to_print_labels = None):
         empty_labels = ["" for label in ur_bin_labels]
         for i, subplot in enumerate(self._subplots):
             subplot.unroll(ur_bin_labels if (pads_to_print_labels == None or i in pads_to_print_labels) else empty_labels,
-                           ur_label_pos, ur_label_angle, ur_label_size)
+                           ur_label_pos, ur_label_angle, ur_label_size, selection)
 
     def changeXLabels(self, replacement_list): #requires list of strings with one string per labeled tick
         for subplot in self._subplots:
@@ -347,6 +347,7 @@ class Subplot(object):
             logger.fatal("A list of bin labels must be given for unrolling!")
             raise Exception
         n_bins = len(self._unroll)
+        n_selected_bins = len(self._selection)
         #determine ranges
         if self._xlims == None:
             hist = self._hists[names[0]][0]
@@ -359,15 +360,16 @@ class Subplot(object):
         inv_round_order = 10.0**(4-math.floor(math.log10(axisrange)))
         for i in range(n_bins):
             axis_borders.append(int((self._xlims[0] + axisrange / n_bins * (i + 1))*inv_round_order)/inv_round_order)
-            pad_borders.append(self._pad.GetLeftMargin() + (1.0 - self._pad.GetRightMargin() - self._pad.GetLeftMargin()) / n_bins * (i + 1))
+        for i in range(n_selected_bins):
+            pad_borders.append(self._pad.GetLeftMargin() + (1.0 - self._pad.GetRightMargin() - self._pad.GetLeftMargin()) / n_selected_bins * (i + 1))
         #fix ticklengths
         self._scale_ticklength = 2.0 / n_bins
         #create subpads
         copy_me = copy.deepcopy(self)
-        for i, entry in enumerate(self._unroll):
+        for i, idx in enumerate(self._selection):
             self._unroll_pads.append(copy.deepcopy(copy_me))
-            self._unroll_pads[i]._unroll = entry
-            self._unroll_pads[i]._xlims = [axis_borders[i], axis_borders[i+1]]
+            self._unroll_pads[i]._unroll = self._unroll[idx]
+            self._unroll_pads[i]._xlims = [axis_borders[idx], axis_borders[idx+1]]
             self._unroll_pads[i]._pad.SetLeftMargin(pad_borders[i])
             self._unroll_pads[i]._pad.SetRightMargin(1.0 - pad_borders[i+1])
             self._unroll_pads[i]._pad.Draw()
@@ -637,11 +639,15 @@ class Subplot(object):
                 hist[0].Divide(denominator)
 
 
-    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, ur_label_size = 1.0):
+    def unroll(self, ur_bin_labels, ur_label_pos = 9, ur_label_angle = 270, ur_label_size = 1.0, selection = None):
         self._unroll = ur_bin_labels
         self._unroll_label_pos = ur_label_pos
         self._unroll_label_angle = ur_label_angle
         self._unroll_label_scalesize = ur_label_size
+        if selection == None:
+            self._selection = range(len(self._unroll))
+        else:
+            self._selection = selection
 
     def changeXLabels(self, replacement_list):
         if not isinstance(replacement_list, list):
