@@ -101,8 +101,8 @@ x_label:
     bpt_2: 'Trailing b-Jet p_{T} / GeV'
 legend_label:
     HTT: 'H#rightarrow#tau#tau'
-    ggH: 'ggH'
-    qqH: 'qqH'
+    ggH: 'gg#rightarrowH'
+    qqH: 'qq#ightarrowH'
     ZTT: 'Z#rightarrow#tau#tau'
     EMB: '#mu#rightarrow#tau embedded'
     ZLL: 'Z#rightarrowll'
@@ -128,5 +128,5 @@ legend_label:
     EWKL: 'Electroweak (l#rightarrow#tau_{h})'
     EWKJ: 'Electroweak (jet#rightarrow#tau_{h})'
     EWKZ: 'EWKZ'
-    jetFakes: 'jet#rightarrow#tau_{h} fakes'
+    jetFakes: 'Jet#rightarrow#tau_{h}'
     data_obs: 'Data'
