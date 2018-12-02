@@ -376,7 +376,7 @@ class Subplot(object):
             if i > 0:
                 self._unroll_pads[i]._ylabelsize = 0.0
                 self._unroll_pads[i]._ytitlesize = 0.0
-            if i < n_bins - 1:
+            if i < n_selected_bins - 1:
                 self._unroll_pads[i]._xtitlesize = 0.0
             if self._unroll_pads[i]._nxdivisions == None:
                 self._unroll_pads[i]._nxdivisions = [4, 0, 4, False]
