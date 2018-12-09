@@ -102,7 +102,10 @@ x_label:
 legend_label:
     HTT: 'H#rightarrow#tau#tau'
     ggH: 'gg#rightarrowH'
-    qqH: 'qq#ightarrowH'
+    qqH: 'qq#rightarrowH'
+    VH: 'qq#rightarrowVH'
+    WH:	'qq#rightarrowWH'
+    ZH:	'qq#rightarrowZH'
     ZTT: 'Z#rightarrow#tau#tau'
     EMB: '#mu#rightarrow#tau embedded'
     ZLL: 'Z#rightarrowll'
