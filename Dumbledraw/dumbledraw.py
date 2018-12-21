@@ -255,7 +255,7 @@ class Subplot(object):
         if name in self._hists.keys():
             logger.fatal("Histogram name %s already used!")
             raise Exception
-        if not isinstance(hist, R.TH1F):
+        if not (isinstance(hist, R.TH1D) or isinstance(hist, R.TH1F)):
             logger.fatal(
                 "add_hist expects a TH1F with name {}, got object {}".format(
                     name, hist))
@@ -366,10 +366,11 @@ class Subplot(object):
         self._scale_ticklength = 2.0 / n_bins
         #create subpads
         copy_me = copy.deepcopy(self)
+        margin = 0.01 * axisrange / n_bins
         for i, idx in enumerate(self._selection):
             self._unroll_pads.append(copy.deepcopy(copy_me))
             self._unroll_pads[i]._unroll = self._unroll[idx]
-            self._unroll_pads[i]._xlims = [axis_borders[idx], axis_borders[idx+1]]
+            self._unroll_pads[i]._xlims = [axis_borders[idx] + margin, axis_borders[idx+1] - margin]
             self._unroll_pads[i]._pad.SetLeftMargin(pad_borders[i])
             self._unroll_pads[i]._pad.SetRightMargin(1.0 - pad_borders[i+1])
             self._unroll_pads[i]._pad.Draw()
