@@ -83,9 +83,13 @@ class Plot(object):
             begin_left = 0.145
         latex2.DrawLatex(begin_left, 0.960, text)
 
-    def DrawCMS(self):
-        styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
-                           0.045, 0.05, 1.0, '', 0.6)
+    def DrawCMS(self,position=0):
+        if position==0:
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
+                               0.045, 0.05, 1.0, '', 0.6)
+        else:
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
+                               0.795, 0.05, 1.0, '', 0.6)
 
     def DrawLumi(self, lumi):
         styles.DrawTitle(self._subplots[0]._pad, lumi, 3)
@@ -103,6 +107,10 @@ class Plot(object):
         for subplot in self._subplots:
             subplot.add_hist(hist=hist, name=name, group_name=group_name)
 
+    def add_graph(self, graph, name, group_name="invisible"):
+        for subplot in self._subplots:
+            subplot.add_graph(graph=graph, name=name, group_name=group_name)
+
     def add_legend(self,
                    reference_subplot=0,
                    width=0.30,
@@ -119,17 +127,21 @@ class Plot(object):
                       linecolor=1,
                       fillcolor=0,
                       linewidth=1,
+                      linestyle=1,
                       markersize=1,
-                      fillstyle=1001):
+                      fillstyle=1001,
+                      alpha=1.0):
         for subplot in self._subplots:
             subplot.setGraphStyle(
                 name=name,
                 markerstyle=markerstyle,
                 linecolor=linecolor,
+                linestyle=linestyle,
                 fillcolor=fillcolor,
                 linewidth=linewidth,
                 markersize=markersize,
-                fillstyle=fillstyle)
+                fillstyle=fillstyle,
+                alpha=alpha)
 
     def create_stack(self, hist_names, name, group_name="invisible"):
         for subplot in self._subplots:
@@ -220,6 +232,7 @@ class Subplot(object):
         self._pad.Draw()
 
         self._hists = {}
+        self._graphs= {}
         self._xlabel = None
         self._ylabel = None
         self._logx = False
@@ -250,6 +263,10 @@ class Subplot(object):
     def hists(self):
         return self._hists
 
+    @property
+    def graphs(self):
+        return self._graphs
+
     # adds histogram to subplot and assign individual name and group name. Default group name = "invisible" which is ignored by DrawAll function.
     def add_hist(self, hist, name, group_name="invisible"):
         if name in self._hists.keys():
@@ -262,6 +279,19 @@ class Subplot(object):
             raise Exception
         self._hists[name] = [
             copy.deepcopy(hist), group_name, ""
+        ]  # last entry is used to save the markerstyle and set in a different function
+
+    def add_graph(self, graph, name, group_name="invisible"):
+        if name in self._graphs.keys():
+            logger.fatal("Graph name %s already used!")
+            raise Exception
+        if not isinstance(graph, R.TGraph):
+            logger.fatal(
+                "add_graph expects a TGraph with name {}, got object {}".format(
+                    name, graph))
+            raise Exception
+        self._graphs[name] = [
+            copy.deepcopy(graph), group_name, ""
         ]  # last entry is used to save the markerstyle and set in a different function
 
     # returns histogram with given name or sum of histograms with given group name
@@ -291,6 +321,10 @@ class Subplot(object):
             else:
                 return hist
 
+    def get_graph(self, name):
+        if name in self._graphs.keys():
+            return self._graphs[name]
+
     # draws all histograms assigned to the subplot except those with group name "invisible"
     def DrawAll(self):
         if isinstance(self._unroll, list):
@@ -314,6 +348,9 @@ class Subplot(object):
             for name in names:
                 if name in self._hists.keys():
                     self.DrawSingle(self._hists[name], isFirst)
+                    isFirst = False
+                elif name in self._graphs.keys():
+                    self.DrawSingle(self._graphs[name], isFirst)
                     isFirst = False
                 else:
                     for entry in self._hists.values():
@@ -535,7 +572,8 @@ class Subplot(object):
                       linewidth=1,
                       markersize=1,
                       linestyle=1,
-                      fillstyle=1001):
+                      fillstyle=1001,
+                      alpha=1.0):
         markerstyledict = {}
         if markerstyle in markerstyledict.keys():
             markerstyle = markerstyledict[markerstyle]
@@ -551,6 +589,14 @@ class Subplot(object):
             self._hists[name][0].SetMarkerSize(markersize)
             self._hists[name][0].SetLineStyle(linestyle)
             self._hists[name][0].SetFillStyle(fillstyle)
+        elif name in self._graphs.keys():
+            self._graphs[name][2] = markerstyle
+            self._graphs[name][0].SetLineColor(linecolor)
+            self._graphs[name][0].SetFillColorAlpha(fillcolor,alpha)
+            self._graphs[name][0].SetLineWidth(linewidth)
+            self._graphs[name][0].SetMarkerSize(markersize)
+            self._graphs[name][0].SetLineStyle(linestyle)
+            self._graphs[name][0].SetFillStyle(fillstyle)
         else:
             for hist in self._hists.values():
                 if hist[1] == name:
@@ -712,11 +758,15 @@ class Legend(object):
         if subplot_index >= len(self._subplots):
             logger.fatal("Subplot index is out of range!")
             raise Exception
-        if not histname in self._subplots[subplot_index]._hists.keys():
+        if histname in self._subplots[subplot_index]._hists.keys():
+            self._legend.AddEntry(
+                self._subplots[subplot_index]._hists[histname][0], label, style)
+        elif histname in self._subplots[subplot_index]._graphs.keys():
+            self._legend.AddEntry(
+                self._subplots[subplot_index]._graphs[histname][0], label, style)
+        else:
             logger.fatal("Requested histogram for legend does not exist!")
             raise Exception
-        self._legend.AddEntry(
-            self._subplots[subplot_index]._hists[histname][0], label, style)
 
     def scaleTextSize(self, scale):
         self._textsizescale = scale
