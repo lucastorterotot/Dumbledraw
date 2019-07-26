@@ -57,12 +57,12 @@ x_label:
     mt_2: 'Transverse mass m_{T}(#mu_{2}, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
     mTdileptonMET: 'Transverse mass m_{T}(#mu_{1}+#mu_{2}, #slash{E}_{T}) (PF) / GeV'
-    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (PF) / GeV'
+    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (PF) / GeV'
     mt_1_puppi: 'Transverse mass m_{T}(#mu_{1}, #slash{E}_{T}) (Puppi) / GeV'
     mt_2_puppi: 'Transverse mass m_{T}(#mu_{2}, #slash{E}_{T}) (Puppi) / GeV'
     mt_tot_puppi: 'Total transverse mass m_{T}^{tot} (Puppi) / GeV'
     mTdileptonMET_puppi: 'Transverse mass m_{T}(#mu_{1}+#mu_{2}, #slash{E}_{T}) (Puppi) / GeV'
-    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (Puppi) / GeV'
+    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (Puppi) / GeV'
 
     # MELA quantities
     ME_D: 'MELA D^{VBF}_{Z + 2 Jets}'
@@ -138,12 +138,12 @@ x_label:
     mt_2: 'Transverse mass m_{T}(#mu, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
     mTdileptonMET: 'Transverse mass m_{T}(e+#mu, #slash{E}_{T}) (PF) / GeV'
-    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (PF) / GeV'
+    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (PF) / GeV'
     mt_1_puppi: 'Transverse mass m_{T}(e, #slash{E}_{T}) (Puppi) / GeV'
     mt_2_puppi: 'Transverse mass m_{T}(#mu, #slash{E}_{T}) (Puppi) / GeV'
     mt_tot_puppi: 'Total transverse mass m_{T}^{tot} (Puppi) / GeV'
     mTdileptonMET_puppi: 'Transverse mass m_{T}(e+#mu, #slash{E}_{T}) (Puppi) / GeV'
-    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (Puppi) / GeV'
+    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (Puppi) / GeV'
 
     # MELA quantities
     ME_D: 'MELA D^{VBF}_{Z + 2 Jets}'
@@ -219,12 +219,12 @@ x_label:
     mt_2: 'Transverse mass m_{T}(#tau_{h}, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
     mTdileptonMET: 'Transverse mass m_{T}(#mu+#tau_{h}, #slash{E}_{T}) (PF) / GeV'
-    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (PF) / GeV'
+    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (PF) / GeV'
     mt_1_puppi: 'Transverse mass m_{T}(#mu, #slash{E}_{T}) (Puppi) / GeV'
     mt_2_puppi: 'Transverse mass m_{T}(#tau_{h}, #slash{E}_{T}) (Puppi) / GeV'
     mt_tot_puppi: 'Total transverse mass m_{T}^{tot} (Puppi) / GeV'
     mTdileptonMET_puppi: 'Transverse mass m_{T}(#mu+#tau_{h}, #slash{E}_{T}) (Puppi) / GeV'
-    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (Puppi) / GeV'
+    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (Puppi) / GeV'
 
     # MELA quantities
     ME_D: 'MELA D^{VBF}_{Z + 2 Jets}'
@@ -300,12 +300,12 @@ x_label:
     mt_2: 'Transverse mass m_{T}(#tau_{h}, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
     mTdileptonMET: 'Transverse mass m_{T}(e+#tau_{h}, #slash{E}_{T}) (PF) / GeV'
-    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (PF) / GeV'
+    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (PF) / GeV'
     mt_1_puppi: 'Transverse mass m_{T}(e, #slash{E}_{T}) (Puppi) / GeV'
     mt_2_puppi: 'Transverse mass m_{T}(#tau_{h}, #slash{E}_{T}) (Puppi) / GeV'
     mt_tot_puppi: 'Total transverse mass m_{T}^{tot} (Puppi) / GeV'
     mTdileptonMET_puppi: 'Transverse mass m_{T}(e+#tau_{h}, #slash{E}_{T}) (Puppi) / GeV'
-    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (Puppi) / GeV'
+    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (Puppi) / GeV'
 
     # MELA quantities
     ME_D: 'MELA D^{VBF}_{Z + 2 Jets}'
@@ -381,12 +381,12 @@ x_label:
     mt_2: 'Transverse mass m_{T}(#tau_{h,2}, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
     mTdileptonMET: 'Transverse mass m_{T}(#tau_{h,1}+#tau_{h,2}, #slash{E}_{T}) (PF) / GeV'
-    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (PF) / GeV'
+    pZetaMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (PF) / GeV'
     mt_1_puppi: 'Transverse mass m_{T}(#tau_{h,1}, #slash{E}_{T}) (Puppi) / GeV'
     mt_2_puppi: 'Transverse mass m_{T}(#tau_{h,2}, #slash{E}_{T}) (Puppi) / GeV'
     mt_tot_puppi: 'Total transverse mass m_{T}^{tot} (Puppi) / GeV'
     mTdileptonMET_puppi: 'Transverse mass m_{T}(#tau_{h,1}+#tau_{h,2}, #slash{E}_{T}) (Puppi) / GeV'
-    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85\cdotp_{#zeta}^{vis} (Puppi) / GeV'
+    pZetaPuppiMissVis: 'p_{#zeza}^{miss} - 0.85#cdotp_{#zeta}^{vis} (Puppi) / GeV'
 
     # MELA quantities
     ME_D: 'MELA D^{VBF}_{Z + 2 Jets}'
