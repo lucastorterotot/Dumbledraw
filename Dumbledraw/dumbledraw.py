@@ -72,13 +72,13 @@ class Plot(object):
         self._canvas.SaveAs(outputname)
         logger.info("Created %s" % outputname)
 
-    def DrawChannelCategoryLabel(self, text, begin_left=None):
+    def DrawChannelCategoryLabel(self, text, textsize=0.04, begin_left=None):
         ypos = 0.960 if "_{" in text else 0.955
         latex2 = R.TLatex()
         latex2.SetNDC()
         latex2.SetTextAngle(0)
         latex2.SetTextColor(R.kBlack)
-        latex2.SetTextSize(0.04)
+        latex2.SetTextSize(textsize)
         if begin_left == None:
             begin_left = 0.145
         latex2.DrawLatex(begin_left, 0.960, text)
