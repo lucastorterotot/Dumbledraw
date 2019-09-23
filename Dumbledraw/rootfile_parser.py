@@ -53,7 +53,14 @@ class Rootfile_parser(object):
             hist_hash = hist_hash.format(plottype="_" + self._type, unc="")
         logger.debug(
             "Try to access %s in %s" % (hist_hash, self._rootfilename))
-        return self._rootfile.Get(hist_hash)
+        # perform check if file is available and otherwise return some dummy TH1F
+        available_processes = [entry.GetName() for entry in self._rootfile.Get(hist_hash.split('/')[0]).GetListOfKeys()]
+        if hist_hash.split('/')[1] in available_processes:
+            return self._rootfile.Get(hist_hash)
+        else:
+            logger.warning("%s in %s does not exist ! Returning empty histogram instead !" % (hist_hash, self._rootfilename))
+            logger.warning(" Available Histograms are: %s" % available_processes)
+            return ROOT.TH1F(hist_hash,process,10,0,1)
 
     def get_bins(self, era, channel, category, process, syst=None):
         hist = self.get(era, channel, category, process, syst)
