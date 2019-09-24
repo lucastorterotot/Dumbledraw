@@ -58,13 +58,14 @@ class Rootfile_parser(object):
         if hist_hash.split('/')[1] in available_processes:
             return self._rootfile.Get(hist_hash)
         elif len(available_processes) != 0:
-            hist_nbins = self._rootfile.Get('{}/{}'.format(hist_hash.split('/')[0],available_processes[0])).GetNbinsX()
-            hist_range = [self._rootfile.Get('{}/{}'.format(hist_hash.split('/')[0],available_processes[0])).GetBinLowEdge(1), 
-                self._rootfile.Get('{}/{}'.format(hist_hash.split('/')[0],available_processes[0])).GetBinLowEdge(hist_nbins+1)]
             logger.warning("%s in %s does not exist !" % (hist_hash, self._rootfilename))
             logger.debug(" Available Histograms are: %s" % available_processes)
-            logger.debug(" Returning a dummy histogram for %s with %s bins in %s " % (process, hist_nbins, hist_range))
-            return ROOT.TH1F(hist_hash,process,hist_nbins,hist_range[0],hist_range[1])
+            logger.debug(" Returning a dummy histogram ")
+            dummy = self._rootfile.Get('{}/{}'.format(hist_hash.split('/')[0],available_processes[0]))
+            dummy.Reset()
+            dummy.SetTitle(process)
+            dummy.SetName(hist_hash)
+            return dummy
         else:
             logger.fatal(" None of the requested Histograms are available in %s. Aborting." % hist_hash.split('/')[0])
             raise Exception
