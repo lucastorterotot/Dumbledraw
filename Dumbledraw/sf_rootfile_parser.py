@@ -14,7 +14,7 @@ class ScaleFactor_Rootfile_parser(object):
         content = [entry.GetName() for entry in self._rootfile.GetListOfKeys()]
         self.Nbins = len(content)
         logger.debug("Identified {} histograms in rootfile {} ".format(len(content), inputrootfilename))
-        self._hist_hash = "{variable}_pt_eta_bins_projx_{etabin}"
+        self._hist_hash = "{variable}_projx_{etabin}"
 
     @property
     def rootfile(self):
@@ -28,22 +28,7 @@ class ScaleFactor_Rootfile_parser(object):
             etabin=etabin)
         logger.debug(
             "Try to access %s in %s" % (hist_hash, self._rootfilename))
-        # perform check if file is available and otherwise return some dummy TH1F
-        # available_processes = [entry.GetName() for entry in self._rootfile.Get(hist_hash.split('/')[0]).GetListOfKeys()]
-        # if hist_hash.split('/')[1] in available_processes:
         return self._rootfile.Get(hist_hash)
-        # elif len(available_processes) != 0:
-        #     logger.warning("%s in %s does not exist !" % (hist_hash, self._rootfilename))
-        #     logger.debug(" Available Histograms are: %s" % available_processes)
-        #     logger.debug(" Returning a dummy histogram ")
-        #     dummy = self._rootfile.Get('{}/{}'.format(hist_hash.split('/')[0],available_processes[0]))
-        #     dummy.Reset()
-        #     dummy.SetTitle("process")
-        #     dummy.SetName(hist_hash)
-        #     return dummy
-        # else:
-        #     logger.fatal(" None of the requested Histograms are available in %s. Aborting." % hist_hash.split('/')[0])
-        #     raise Exception
 
 
     def get_bins(self, variable, etabin):
