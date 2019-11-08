@@ -124,6 +124,8 @@ class Plot(object):
     def setGraphStyle(self,
                       name,
                       markerstyle,
+                      markershape=1,
+                      markercolor=0,
                       linecolor=1,
                       fillcolor=0,
                       linewidth=1,
@@ -135,6 +137,8 @@ class Plot(object):
             subplot.setGraphStyle(
                 name=name,
                 markerstyle=markerstyle,
+                markershape=markershape,
+                markercolor=markercolor,
                 linecolor=linecolor,
                 linestyle=linestyle,
                 fillcolor=fillcolor,
@@ -567,6 +571,8 @@ class Subplot(object):
     def setGraphStyle(self,
                       name,
                       markerstyle,
+                      markershape=1,
+                      markercolor=0,
                       linecolor=1,
                       fillcolor=0,
                       linewidth=1,
@@ -583,6 +589,8 @@ class Subplot(object):
                     "Adressed object is stack. Style cannot be set!")
                 return
             self._hists[name][2] = markerstyle
+            self._hists[name][0].SetMarkerStyle(markershape)
+            self._hists[name][0].SetMarkerColor(markercolor)
             self._hists[name][0].SetLineColor(linecolor)
             self._hists[name][0].SetFillColor(fillcolor)
             self._hists[name][0].SetLineWidth(linewidth)
@@ -591,6 +599,8 @@ class Subplot(object):
             self._hists[name][0].SetFillStyle(fillstyle)
         elif name in self._graphs.keys():
             self._graphs[name][2] = markerstyle
+            self._graphs[name][0].SetMarkerStyle(markershape)
+            self._graphs[name][0].SetMarkerColor(markercolor)
             self._graphs[name][0].SetLineColor(linecolor)
             self._graphs[name][0].SetFillColorAlpha(fillcolor,alpha)
             self._graphs[name][0].SetLineWidth(linewidth)
@@ -605,6 +615,8 @@ class Subplot(object):
                             "Adressed object is stack. Style cannot be set!")
                         return
                     hist[2] = markerstyle
+                    hist[0].SetMarkerStyle(markershape)
+                    hist[0].SetMarkerColor(markercolor)
                     hist[0].SetLineColor(linecolor)
                     hist[0].SetFillColor(fillcolor)
                     hist[0].SetLineWidth(linewidth)
