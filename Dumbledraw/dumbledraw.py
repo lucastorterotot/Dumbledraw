@@ -241,6 +241,7 @@ class Subplot(object):
         self._ylabel = None
         self._logx = False
         self._logy = False
+        self._grid = False
         self._xlims = None
         self._ylims = None
         self._xlabelsize = None
@@ -462,6 +463,9 @@ class Subplot(object):
 
     def setLogY(self):
         self._logy = True
+    
+    def setGrid(self):
+        self._grid = True
 
     def scaleXLabelSize(self, val):
         self._xlabelsize = val
@@ -566,7 +570,10 @@ class Subplot(object):
         if self._changeylabels != None:
             for i, label in enumerate(self._changeylabels):
                 hist.GetYaxis().ChangeLabel(i+1, -1, -1, -1, -1, -1, label)
-
+   
+        # add grid ticks if set
+        if self._grid:
+            self._pad.SetGridy(1)
     # sets style for specific histogram or group
     def setGraphStyle(self,
                       name,
