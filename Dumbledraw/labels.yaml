@@ -101,7 +101,7 @@ x_label:
     pt_tt_puppi: 'p_{T}(#tau#tau) (Puppi) / GeV'
 
     # Lepton quantities
-    pt_1: 'Electon p_{T} / GeV'
+    pt_1: 'Electron p_{T} / GeV'
     pt_2: 'Muon p_{T} / GeV'
     eta_1: 'Electron #eta'
     eta_2: 'Muon #eta'
