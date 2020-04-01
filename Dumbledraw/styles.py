@@ -17,8 +17,8 @@ def CreateTransparentColor(color, alpha):
     return new_idx
 
 
-legend_label_dict = yaml.load(open(labels_path))['legend_label']
-x_label_dict = yaml.load(open(labels_path))['x_label']
+legend_label_dict = yaml.load(open(labels_path), Loader=yaml.FullLoader)['legend_label']
+x_label_dict = yaml.load(open(labels_path), Loader=yaml.FullLoader)['x_label']
 
 color_dict = {
     "ggH": R.TColor.GetColor("#BF2229"),
