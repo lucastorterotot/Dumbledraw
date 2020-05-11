@@ -162,6 +162,8 @@ x_label:
     ME_phi: 'MELA #Phi'
     ME_phi1: 'MELA #Phi_{1}'
   mt:
+    ml_score: 'NN output'
+
     # Dilepton Quantities
     m_vis: 'Visible di-#tau mass / GeV'
     ptvis: 'Visible di-#tau p_{T} / GeV'
