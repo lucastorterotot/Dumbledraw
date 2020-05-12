@@ -382,7 +382,6 @@ def DrawCMSLogo(pad,
 
     # ratio of 'CMS' and extra text size
     extraOverCmsTextSize = 0.76
-
     outOfFrame = False
     if iPosX / 10 == 0:
         outOfFrame = True
@@ -460,7 +459,7 @@ def DrawCMSLogo(pad,
         latex.DrawLatex(posX_, posY_, extraText)
 
 
-def DrawTitle(pad, text, align):
+def DrawTitle(pad, text, align, textSize=0.6):
     pad_backup = R.gPad
     pad.cd()
     t = pad.GetTopMargin()
@@ -472,7 +471,7 @@ def DrawTitle(pad, text, align):
     if pad_ratio < 1.:
         pad_ratio = 1.
 
-    textSize = 0.6
+    #textSize = 0.6
     textOffset = 0.2
 
     latex = R.TLatex()
@@ -482,7 +481,7 @@ def DrawTitle(pad, text, align):
     latex.SetTextFont(42)
     latex.SetTextSize(textSize * t * pad_ratio)
 
-    y_off = 1 - t + textOffset * t
+    y_off = 1 - t + textOffset * t + 0.0055
     if align == 1:
         latex.SetTextAlign(11)
     if align == 1:
