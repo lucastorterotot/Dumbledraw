@@ -105,7 +105,7 @@ class Plot(object):
     def DrawLumi(self, lumi, textsize=0.6):
         styles.DrawTitle(self._subplots[0]._pad, lumi, 3, textsize)
 
-    def DrawText(self, x, y, text):
+    def DrawText(self, x, y, text, textsize=0.04):
         ypos = 0.8
         latex2 = R.TLatex()
         latex2.SetNDC()

@@ -55,6 +55,9 @@ color_dict = {
     "EWKJ": R.TColor.GetColor("#E1F5A9"),
     "EWKZ": R.TColor.GetColor("#E1F5A9"),
     "jetFakes": R.TColor.GetColor(192, 232, 100),
+    "jetFakesW": R.TColor.GetColor(222, 90, 106),
+    "jetFakesQCD": R.TColor.GetColor(250, 202, 255),
+    "jetFakesTT": R.TColor.GetColor(155, 152, 204),
     "jetFakesEMB": R.TColor.GetColor(192, 232, 100),
     "unc": CreateTransparentColor(12, 0.4)
 }
@@ -471,7 +474,6 @@ def DrawTitle(pad, text, align, textSize=0.6):
     if pad_ratio < 1.:
         pad_ratio = 1.
 
-    #textSize = 0.6
     textOffset = 0.2
 
     latex = R.TLatex()
