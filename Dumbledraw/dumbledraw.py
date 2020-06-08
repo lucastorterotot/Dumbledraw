@@ -72,35 +72,46 @@ class Plot(object):
         self._canvas.SaveAs(outputname)
         logger.info("Created %s" % outputname)
 
-    def DrawChannelCategoryLabel(self, text, textsize=0.04, begin_left=None):
-        ypos = 0.960 if "_{" in text else 0.955
-        latex2 = R.TLatex()
-        latex2.SetNDC()
-        latex2.SetTextAngle(0)
-        latex2.SetTextColor(R.kBlack)
-        latex2.SetTextSize(textsize)
-        if begin_left == None:
-            begin_left = 0.145
-        latex2.DrawLatex(begin_left, 0.960, text)
+    def DrawChannelCategoryLabel(self, text, textsize=0.04, begin_left=None, print_inside=False):
+        if print_inside:
+            latex2 = R.TLatex()
+            latex2.SetNDC()
+            latex2.SetTextAngle(0)
+            latex2.SetTextColor(R.kBlack)
+            latex2.SetTextSize(0.03)
+            latex2.DrawLatex(0.39, 0.720, text)
+        else:
+            ypos = 0.960 if "_{" in text else 0.955
+            latex2 = R.TLatex()
+            latex2.SetNDC()
+            latex2.SetTextAngle(0)
+            latex2.SetTextColor(R.kBlack)
+            latex2.SetTextSize(textsize)
+            if begin_left == None:
+                begin_left = 0.145
+            latex2.DrawLatex(begin_left, 0.960, text)
 
     def DrawCMS(self,position=0):
         if position==0:
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
                                0.045, 0.05, 1.0, '', 0.6)
+        elif position=="outside":
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 0,
+                               0.095, 0.05, 1.0, '', 0.6)
         else:
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
                                0.795, 0.05, 1.0, '', 0.6)
 
-    def DrawLumi(self, lumi):
-        styles.DrawTitle(self._subplots[0]._pad, lumi, 3)
+    def DrawLumi(self, lumi, textsize=0.6):
+        styles.DrawTitle(self._subplots[0]._pad, lumi, 3, textsize)
 
-    def DrawText(self, x, y, text):
+    def DrawText(self, x, y, text, textsize=0.04):
         ypos = 0.8
         latex2 = R.TLatex()
         latex2.SetNDC()
         latex2.SetTextAngle(0)
         latex2.SetTextColor(R.kBlack)
-        latex2.SetTextSize(0.04)
+        latex2.SetTextSize(textsize)
         latex2.DrawLatex(x, y, text)
 
     def add_hist(self, hist, name, group_name="invisible"):

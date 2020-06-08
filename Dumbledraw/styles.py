@@ -55,6 +55,9 @@ color_dict = {
     "EWKJ": R.TColor.GetColor("#E1F5A9"),
     "EWKZ": R.TColor.GetColor("#E1F5A9"),
     "jetFakes": R.TColor.GetColor(192, 232, 100),
+    "jetFakesW": R.TColor.GetColor(222, 90, 106),
+    "jetFakesQCD": R.TColor.GetColor(250, 202, 255),
+    "jetFakesTT": R.TColor.GetColor(155, 152, 204),
     "jetFakesEMB": R.TColor.GetColor(192, 232, 100),
     "unc": CreateTransparentColor(12, 0.4)
 }
@@ -382,7 +385,6 @@ def DrawCMSLogo(pad,
 
     # ratio of 'CMS' and extra text size
     extraOverCmsTextSize = 0.76
-
     outOfFrame = False
     if iPosX / 10 == 0:
         outOfFrame = True
@@ -460,7 +462,7 @@ def DrawCMSLogo(pad,
         latex.DrawLatex(posX_, posY_, extraText)
 
 
-def DrawTitle(pad, text, align):
+def DrawTitle(pad, text, align, textSize=0.6):
     pad_backup = R.gPad
     pad.cd()
     t = pad.GetTopMargin()
@@ -472,7 +474,6 @@ def DrawTitle(pad, text, align):
     if pad_ratio < 1.:
         pad_ratio = 1.
 
-    textSize = 0.6
     textOffset = 0.2
 
     latex = R.TLatex()
@@ -482,7 +483,7 @@ def DrawTitle(pad, text, align):
     latex.SetTextFont(42)
     latex.SetTextSize(textSize * t * pad_ratio)
 
-    y_off = 1 - t + textOffset * t
+    y_off = 1 - t + textOffset * t + 0.0055
     if align == 1:
         latex.SetTextAlign(11)
     if align == 1:
