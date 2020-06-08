@@ -440,5 +440,8 @@ legend_label:
     EWKJ: 'Electroweak (jet#rightarrow^{}#tau_{h})'
     EWKZ: 'EWKZ'
     jetFakes: 'Jet#rightarrow^{}#tau_{h}'
+    jetFakesW: 'Jet#rightarrow^{}#tau_{h} (W)'
+    jetFakesQCD: 'Jet#rightarrow^{}#tau_{h} (QCD)'
+    jetFakesTT: 'Jet#rightarrow^{}#tau_{h} (TT)'
     jetFakesEMB: 'Jet#rightarrow^{}#tau_{h}'
     data_obs: 'Data'
