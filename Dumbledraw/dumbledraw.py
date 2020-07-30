@@ -817,5 +817,4 @@ class Legend(object):
         self._legend.SetTextSize(0.025 * self._textsizescale)
         self._legend.SetFillColorAlpha(self._FillColor, self._alpha)
         self._legend.SetColumnSeparation(0)
-        self._legend.SetFillStyle(0)
         self._legend.Draw("same")
