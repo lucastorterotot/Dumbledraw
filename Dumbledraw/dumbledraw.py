@@ -76,15 +76,17 @@ class Plot(object):
         if print_inside:
             latex2 = R.TLatex()
             latex2.SetNDC()
+            latex2.SetTextFont(42)
             latex2.SetTextAngle(0)
             latex2.SetTextColor(R.kBlack)
-            latex2.SetTextSize(0.03)
+            latex2.SetTextSize(0.02)
             latex2.DrawLatex(0.39, 0.720, text)
         else:
             ypos = 0.960 if "_{" in text else 0.955
             latex2 = R.TLatex()
             latex2.SetNDC()
             latex2.SetTextAngle(0)
+            latex2.SetTextFont(42)
             latex2.SetTextColor(R.kBlack)
             latex2.SetTextSize(textsize)
             if begin_left == None:
@@ -815,4 +817,5 @@ class Legend(object):
         self._legend.SetTextSize(0.025 * self._textsizescale)
         self._legend.SetFillColorAlpha(self._FillColor, self._alpha)
         self._legend.SetColumnSeparation(0)
+        self._legend.SetFillStyle(0)
         self._legend.Draw("same")

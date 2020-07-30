@@ -21,13 +21,16 @@ legend_label_dict = yaml.load(open(labels_path))['legend_label']
 x_label_dict = yaml.load(open(labels_path))['x_label']
 
 color_dict = {
-    "ggH": R.TColor.GetColor("#BF2229"),
-    "qqH": R.TColor.GetColor("#00A88F"),
+    "ggH": R.TColor.GetColor("#fed766"),
+    "qqH": R.TColor.GetColor("#2ab7ca"),
     "VH": R.TColor.GetColor("#001EFF"),
     "WH": R.TColor.GetColor("#001EFF"),
     "ZH": R.TColor.GetColor("#001EFF"),
     "ttH": R.TColor.GetColor("#FF00FF"),
     "HWW": R.TColor.GetColor("#FF8C00"),
+    "ggH_hww": R.TColor.GetColor("#FF8C00"),
+    "qqH_hww": R.TColor.GetColor("#FF8C00"),
+    "dummy": R.TColor.GetColor(254, 74, 73),
     "ZTT": R.TColor.GetColor(248, 206, 104),
     "EMB": R.TColor.GetColor(248, 206, 104),
     "ZLL": R.TColor.GetColor(100, 192, 232),
@@ -59,6 +62,8 @@ color_dict = {
     "jetFakesQCD": R.TColor.GetColor(250, 202, 255),
     "jetFakesTT": R.TColor.GetColor(155, 152, 204),
     "jetFakesEMB": R.TColor.GetColor(192, 232, 100),
+    "TotalBkg": R.TColor.GetColor(211,211,211),
+    "REST": R.TColor.GetColor("#B0C4DE"),
     "unc": CreateTransparentColor(12, 0.4)
 }
 
