@@ -103,15 +103,19 @@ class Plot(object):
                 begin_left = 0.145
             latex2.DrawLatex(begin_left, 0.960, text)
 
-    def DrawCMS(self,position=0):
+    def DrawCMS(self,position=0, preliminary=True):
+        if preliminary:
+            additional_string = 'Preliminary'
+        else:
+            additional_string = ""
         if position==0:
-            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 11,
                                0.045, 0.05, 1.0, '', 0.6)
         elif position=="outside":
-            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 0,
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 0,
                                0.095, 0.05, 1.0, '', 0.6)
         else:
-            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 11,
                                0.795, 0.05, 1.0, '', 0.6)
 
     def DrawLumi(self, lumi, textsize=0.6):
@@ -149,9 +153,10 @@ class Plot(object):
                     xmin=0.30,
                     ymin=0.20,
                     xmax=3,
-                    ymax=0.03, color=1, linestyle=0):
+                    ymax=0.03, color=1, linestyle=0, linewidth=1):
         self._lines.append(
-            Line(reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, self._subplots))
+            Line(reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, linewidth, self._subplots))
+
 
     def setGraphStyle(self,
                       name,
@@ -607,6 +612,8 @@ class Subplot(object):
         # add grid ticks if set
         if self._grid:
             self._pad.SetGridy(1)
+        # always use scientific notation on y axis
+        hist.GetYaxis().SetMaxDigits(3)
     # sets style for specific histogram or group
     def setGraphStyle(self,
                       name,
@@ -762,7 +769,7 @@ class Subplot(object):
 
 
 class Line(object):
-    def __init__(self, reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, subplots):
+    def __init__(self, reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, linewidth, subplots):
         if not isinstance(reference_subplot, int):
             logger.fatal("Subplot index is supposed to be of type int!")
             raise Exception
@@ -774,11 +781,11 @@ class Line(object):
         self._line = R.TLine(xmin, ymin, xmax, ymax)
         self.color = color
         self.linestyle = linestyle
+        self.linewidth = linewidth
     
     def Draw(self):
-        print("drawing {}".format(self._line.Print()))
         self.reference_subplot._pad.cd()
-        self._line.SetLineWidth(2)
+        self._line.SetLineWidth(self.linewidth)
         self._line.SetLineStyle(self.linestyle)
         self._line.SetLineColor(self.color)
         self._line.Draw("same")
