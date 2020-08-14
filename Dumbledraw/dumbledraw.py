@@ -612,8 +612,7 @@ class Subplot(object):
         # add grid ticks if set
         if self._grid:
             self._pad.SetGridy(1)
-        # always use scientific notation on y axis
-        hist.GetYaxis().SetMaxDigits(3)
+
     # sets style for specific histogram or group
     def setGraphStyle(self,
                       name,
