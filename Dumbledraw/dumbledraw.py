@@ -20,6 +20,7 @@ class Plot(object):
         self._canvas.cd()
         self._subplots = []
         self._legends = []
+        self._lines = []
         # evaluate splitlist and book
         if isinstance(splitlist, basestring):
             splitlist = [splitlist]
@@ -67,6 +68,15 @@ class Plot(object):
             logger.fatal("Legend index is out of range!")
             raise Exception
         return self._legends[index]
+    
+    def line(self, index):
+        if not isinstance(index, int):
+            logger.fatal("Line index is supposed to be of type int!")
+            raise Exception
+        if index >= len(self._lines):
+            logger.fatal("Line index is out of range!")
+            raise Exception
+        return self._lines[index]
 
     def save(self, outputname):
         self._canvas.SaveAs(outputname)
@@ -93,15 +103,19 @@ class Plot(object):
                 begin_left = 0.145
             latex2.DrawLatex(begin_left, 0.960, text)
 
-    def DrawCMS(self,position=0):
+    def DrawCMS(self,position=0, preliminary=True):
+        if preliminary:
+            additional_string = 'Preliminary'
+        else:
+            additional_string = ""
         if position==0:
-            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 11,
                                0.045, 0.05, 1.0, '', 0.6)
         elif position=="outside":
-            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 0,
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 0,
                                0.095, 0.05, 1.0, '', 0.6)
         else:
-            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
+            styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 11,
                                0.795, 0.05, 1.0, '', 0.6)
 
     def DrawLumi(self, lumi, textsize=0.6):
@@ -133,6 +147,16 @@ class Plot(object):
         self._legends.append(
             Legend(reference_subplot, width, height, pos, offset,
                    self._subplots))
+   
+    def add_line(self,
+                    reference_subplot=0,
+                    xmin=0.30,
+                    ymin=0.20,
+                    xmax=3,
+                    ymax=0.03, color=1, linestyle=0, linewidth=1):
+        self._lines.append(
+            Line(reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, linewidth, self._subplots))
+
 
     def setGraphStyle(self,
                       name,
@@ -510,6 +534,7 @@ class Subplot(object):
     def scaleYLabelOffset(self, val):
         self._ylabeloffsetscale = val
 
+
     # internal method to apply formatting to initial histograms
     def setAxisStyles(self, hist):
         # set axis labels
@@ -587,6 +612,7 @@ class Subplot(object):
         # add grid ticks if set
         if self._grid:
             self._pad.SetGridy(1)
+
     # sets style for specific histogram or group
     def setGraphStyle(self,
                       name,
@@ -740,6 +766,28 @@ class Subplot(object):
             raise Exception
         self._changeYlabels = replacement_list
 
+
+class Line(object):
+    def __init__(self, reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, linewidth, subplots):
+        if not isinstance(reference_subplot, int):
+            logger.fatal("Subplot index is supposed to be of type int!")
+            raise Exception
+        if reference_subplot >= len(subplots):
+            logger.fatal("Subplot index is out of range!")
+            raise Exception
+        self.reference_subplot = subplots[reference_subplot]
+        self._subplots = subplots
+        self._line = R.TLine(xmin, ymin, xmax, ymax)
+        self.color = color
+        self.linestyle = linestyle
+        self.linewidth = linewidth
+    
+    def Draw(self):
+        self.reference_subplot._pad.cd()
+        self._line.SetLineWidth(self.linewidth)
+        self._line.SetLineStyle(self.linestyle)
+        self._line.SetLineColor(self.color)
+        self._line.Draw("same")
 
 class Legend(object):
     def __init__(self, reference_subplot, width, height, pos, offset,
