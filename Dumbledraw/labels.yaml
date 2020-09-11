@@ -414,7 +414,7 @@ legend_label:
     WH: 'qq#rightarrowWH'
     ZH: 'qq#rightarrowZH'
     ZTT: 'Z#rightarrow#tau#tau'
-    EMB: '#mu#rightarrow#tau embedded'
+    EMB: '#tau embedded'
     EMBCMB: 'Z/t#bar{t}/VV#rightarrow#tau#tau'
     TotalBkg: 'Background' 
     REST: 'Other Bkg.'
