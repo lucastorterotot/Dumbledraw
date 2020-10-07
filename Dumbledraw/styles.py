@@ -27,6 +27,7 @@ color_dict = {
     "WH": R.TColor.GetColor("#001EFF"),
     "ZH": R.TColor.GetColor("#001EFF"),
     "ttH": R.TColor.GetColor("#FF00FF"),
+    "bbH": R.TColor.GetColor("#009900"),
     "HWW": R.TColor.GetColor("#FF8C00"),
     "ZTT": R.TColor.GetColor(248, 206, 104),
     "EMB": R.TColor.GetColor(248, 206, 104),
