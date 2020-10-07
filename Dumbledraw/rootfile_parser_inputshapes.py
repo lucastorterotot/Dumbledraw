@@ -61,12 +61,16 @@ class Rootfile_parser(object):
     def rootfile(self):
         return self._rootfile
 
-    def get(self, channel, process, shape_type="Nominal"):
+    def get(self, channel, process, category=None, shape_type="Nominal"):
         dataset = self._dataset_map[process]
+        if category is None:
+            category = "" if "data" in process else "-" + self._process_map[process]
+        else:
+            category = "-" + category if "data" in process else "-" + "-".join([self._process_map[process], category])
         hist_hash = "{dataset}#{channel}{category}#{shape_type}#{variable}".format(
             dataset=dataset,
             channel=channel,
-            category="" if "data" in process else "-" + self._process_map[process],
+            category=category,
             shape_type=shape_type,
             variable=self._variable)
         logger.debug("Try to access %s in %s" % (hist_hash,
