@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 
 import logging
 import ROOT
 import copy
-from __future__ import print_function
 logger = logging.getLogger(__name__)
 
 
