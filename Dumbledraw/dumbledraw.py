@@ -344,9 +344,12 @@ class Subplot(object):
                 raise Exception
             return self._hists[name][0]
         else:
+            
             empty = True
             for entry in self._hists.values():
+                print(entry)
                 if entry[1] == name:
+                    
                     if isinstance(entry[0], R.THStack):
                         logger.fatal(
                             "get_hist does not accept names of stacks!")

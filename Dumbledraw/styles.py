@@ -23,6 +23,9 @@ x_label_dict = yaml.load(open(labels_path))['x_label']
 color_dict = {
     "ggH": R.TColor.GetColor("#fed766"),
     "qqH": R.TColor.GetColor("#2ab7ca"),
+    "ggH125": R.TColor.GetColor("#BF2229"),
+    "qqH125": R.TColor.GetColor("#00A88F"),
+    "HTT": R.TColor.GetColor("#00A88F"),
     "VH": R.TColor.GetColor("#001EFF"),
     "WH": R.TColor.GetColor("#001EFF"),
     "ZH": R.TColor.GetColor("#001EFF"),
@@ -67,6 +70,9 @@ color_dict = {
     "TotalBkg": R.TColor.GetColor(211,211,211),
     "REST": R.TColor.GetColor("#B0C4DE"),
     "unc": CreateTransparentColor(12, 0.4)
+    "NMSSM_320_125_60" : R.TColor.GetColor("#8B008B"),
+    "NMSSM_320_125_100" : R.TColor.GetColor("#8a8a00")
+
 }
 
 

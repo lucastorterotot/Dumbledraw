@@ -407,7 +407,7 @@ x_label:
 
 
 legend_label:
-    HTT: 'H#rightarrow#tau#tau'
+    HTT: "SM Higgs" #'h#rightarrow#tau#tau'
     ggH: 'gg#rightarrowH'
     qqH: 'qq#rightarrowH'
     VH: 'qq#rightarrowVH'
