@@ -21,7 +21,7 @@ class Plot(object):
         self._subplots = []
         self._legends = []
         # evaluate splitlist and book
-        if isinstance(splitlist, basestring):
+        if isinstance(splitlist, str):
             splitlist = [splitlist]
         lower = 1.0
         upper = 1.0
@@ -358,7 +358,7 @@ class Subplot(object):
         if isinstance(self._unroll, list):
             self.DrawUnrolled(names)
         else:
-            if isinstance(names, basestring):
+            if isinstance(names, str):
                 names = [names]
             isFirst = True
             for name in names:
@@ -649,7 +649,7 @@ class Subplot(object):
             raise Exception
         stack = R.THStack("hs", "")
         # regularize inputs
-        if isinstance(hist_names, basestring):
+        if isinstance(hist_names, str):
             hist_names = [hist_names]
         for hist_name in hist_names:
             if hist_name in self._hists.keys():
@@ -672,9 +672,9 @@ class Subplot(object):
     # normalizes one or more histograms to a given denominator
     def normalize(self, nominator_names, denominator_names):
         # regularize inputs
-        if isinstance(nominator_names, basestring):
+        if isinstance(nominator_names, str):
             nominator_names = [nominator_names]
-        if isinstance(denominator_names, basestring):
+        if isinstance(denominator_names, str):
             denominator_names = [denominator_names]
 
         # sum up denominator
@@ -686,7 +686,7 @@ class Subplot(object):
             else:
                 denominator.Add(self.get_hist(name))
         # do not propagate denominator errors
-        for i in xrange(1, denominator.GetNbinsX() + 1):
+        for i in range(1, denominator.GetNbinsX() + 1):
             denominator.SetBinError(i, 0.)
 
         # normalize all nominator inputs
