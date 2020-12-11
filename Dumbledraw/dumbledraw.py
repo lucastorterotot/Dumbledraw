@@ -94,7 +94,7 @@ class Plot(object):
     def DrawCMS(self,position=0):
         if position==0:
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 11,
-                               0.045, 0.05, 1.0, '', 0.6)
+                               0.130, 0.05, 1.0, '', 0.6)
         elif position=="outside":
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', 'Preliminary', 0,
                                0.095, 0.05, 1.0, '', 0.6)
